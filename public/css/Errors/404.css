@@ -1,0 +1,291 @@
+/* body {
+    background-color: whitesmoke;
+  }
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -400px;
+  }
+  .message-box {
+    height: 200px;
+    width: 380px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: 50px;
+    color: black;
+    font-family: Roboto;
+    font-weight: 300;
+  }
+  .message-box h1 {
+    font-size: 60px;
+    line-height: 46px;
+    margin-bottom: 40px;
+  }
+  .buttons-con .action-link-wrap {
+    margin-top: 40px;
+  }
+  .buttons-con .action-link-wrap a {
+    background: #68c950;
+    padding: 8px 25px;
+    border-radius: 4px;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 20px;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+  }
+  .buttons-con .action-link-wrap a:hover {
+    background: black;
+    color: #fff;
+  }
+  
+  #Polygon-1 , #Polygon-2 , #Polygon-3 , #Polygon-4 , #Polygon-4, #Polygon-5 {
+    animation: float 1s infinite ease-in-out alternate;
+  }
+  #Polygon-2 {
+    animation-delay: .2s; 
+  }
+  #Polygon-3 {
+    animation-delay: .4s; 
+  }
+  #Polygon-4 {
+    animation-delay: .6s; 
+  }
+  #Polygon-5 {
+    animation-delay: .8s; 
+  }
+  
+  @keyframes float {
+      100% {
+      transform: translateY(20px);
+    }
+  }
+  @media (max-width: 450px) {
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -250px;
+      margin-left: -190px;
+    }
+    .message-box {
+      top: 50%;
+      left: 50%;
+      margin-top: -100px;
+      margin-left: -190px;
+      text-align: center;
+    }
+  } */
+
+
+
+
+
+
+
+
+
+
+  #notfound {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  #notfound .notfound {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+  }
+  
+  #notfound .notfound-bg {
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+  
+  #notfound .notfound-bg>div {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: #eee;
+  }
+  
+  #notfound .notfound-bg>div:nth-child(1) {
+    left: 20%;
+  }
+  
+  #notfound .notfound-bg>div:nth-child(2) {
+    left: 40%
+  }
+  
+  #notfound .notfound-bg>div:nth-child(3) {
+    left: 60%
+  }
+  
+  #notfound .notfound-bg>div:nth-child(4) {
+    left: 80%
+  }
+  
+  #notfound .notfound-bg>div:after {
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: -0.5px;
+    -webkit-transform: translateY(-160px);
+        -ms-transform: translateY(-160px);
+            transform: translateY(-160px);
+    height: 160px;
+    width: 2px;
+    background-color: #343a40;
+  }
+  
+  @-webkit-keyframes drop {
+    90% {
+      height: 20px;
+    }
+    100% {
+      height: 160px;
+      -webkit-transform: translateY(calc(100vh + 160px));
+              transform: translateY(calc(100vh + 160px));
+    }
+  }
+  
+  @keyframes drop {
+    90% {
+      height: 20px;
+    }
+    100% {
+      height: 160px;
+      -webkit-transform: translateY(calc(100vh + 160px));
+              transform: translateY(calc(100vh + 160px));
+    }
+  }
+  
+  #notfound .notfound-bg>div:nth-child(1):after {
+    -webkit-animation: drop 3s infinite linear;
+            animation: drop 3s infinite linear;
+    -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+  }
+  
+  #notfound .notfound-bg>div:nth-child(2):after {
+    -webkit-animation: drop 2s infinite linear;
+            animation: drop 2s infinite linear;
+    -webkit-animation-delay: 0.7s;
+            animation-delay: 0.7s;
+  }
+  
+  #notfound .notfound-bg>div:nth-child(3):after {
+    -webkit-animation: drop 3s infinite linear;
+            animation: drop 3s infinite linear;
+    -webkit-animation-delay: 0.9s;
+            animation-delay: 0.9s;
+  }
+  
+  #notfound .notfound-bg>div:nth-child(4):after {
+    -webkit-animation: drop 2s infinite linear;
+            animation: drop 2s infinite linear;
+    -webkit-animation-delay: 1.2s;
+            animation-delay: 1.2s;
+  }
+  
+  .notfound {
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+  }
+  
+  .notfound .notfound-404 {
+    height: 210px;
+    line-height: 210px;
+  }
+  
+  .notfound .notfound-404 h1 {
+    /* font-family: 'Oswald', sans-serif; */
+    font-size: 188px;
+    font-weight: 900;
+    margin: 0px;
+  }
+  
+  .notfound h2 {
+    /* font-family: 'Oswald', sans-serif; */
+    font-size: 42px;
+    
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+  }
+  
+  .notfound p {
+    /* font-family: 'Lato', sans-serif; */
+    color: #000;
+    
+    margin-top: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .notfound a {
+    /* font-family: 'Lato', sans-serif; */
+    padding: 10px 30px;
+    display: inline-block;
+    color: #000;
+    font-weight: 400;
+    text-transform: uppercase;
+    -webkit-box-shadow: 0px 0px 0px 2px #000, 2px 2px 0px 2px #343a40;
+            box-shadow: 0px 0px 0px 2px #000, 2px 2px 0px 2px #343a40;
+    text-decoration: none;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+  }
+  
+  .notfound a:hover {
+    background-color: #ececec;
+    -webkit-box-shadow: 0px 0px 0px 0px #000, 0px 0px 0px 2px #343a40;
+            box-shadow: 0px 0px 0px 0px #000, 0px 0px 0px 2px #343a40;
+  }
+  
+  .notfound-social {
+    margin-top: 35px;
+  }
+  
+  .notfound-social>a {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px;
+    margin: 0px 5px;
+  }
+  
+  .notfound-social>a:hover {
+    background-color: #343a40;
+    -webkit-box-shadow: 0px 0px 0px 0px #000, 0px 0px 0px 2px #343a40;
+            box-shadow: 0px 0px 0px 0px #000, 0px 0px 0px 2px #343a40;
+  }
+  
+  @media only screen and (max-width: 480px) {
+    .notfound .notfound-404 {
+      height: 122px;
+      line-height: 122px;
+    }
+    .notfound .notfound-404 h1 {
+      font-size: 122px;
+    }
+    .notfound h2 {
+      font-size: 26px;
+    }
+  }

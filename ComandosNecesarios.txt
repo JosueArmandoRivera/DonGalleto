@@ -1,0 +1,21 @@
+---- Comando para descargar la plantilla de adminlte ----
+composer require jeroennoten/laravel-adminlte
+
+---- Comando para instalar la plantilla ----
+php artisan adminlte:install
+
+---- Comando para crear una ruta directa a la imagenes del storage ----
+php artisan storage:link
+
+-- Comando para el envio de correos --
+composer require innoge/laravel-msgraph-mail
+
+---- Comando para instalar livewere ----
+composer require livewire/livewire
+
+---- libreria para genera PDF ----
+composer require barryvdh/laravel-dompdf
+
+Videos
+https://www.youtube.com/watch?v=Dp47xjPS_ik
+https://www.youtube.com/watch?v=afow0RsMvxI&t=1145s

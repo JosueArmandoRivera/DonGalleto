@@ -1,0 +1,41 @@
+.accordion-trigger {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    position: relative; /* Posicionamiento relativo para el elemento */
+
+    /* Estilos para la flecha hacia abajo en el título del acordeón */
+}
+
+.accordion-trigger.active {
+    background-color: #e9ecef; /* Cambio de color de fondo cuando el título está activo */
+}
+
+.accordion-content {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-bottom: 10px; /* Margen inferior para separar los contenidos del acordeón */
+
+    /* Estilos para el contenido del acordeón */
+}
+
+.accordion .fa-angle-down {
+    position: absolute; /* Posicionamiento absoluto para la flecha hacia abajo */
+    right: 10px; /* Ubicación a la derecha */
+    top: 50%; /* Ubicación verticalmente en el centro */
+    transform: translateY(-50%); /* Alineación vertical precisa */
+    transition: transform 0.3s; /* Transición suave para la animación de la flecha */
+    
+    /* Estilos para la flecha hacia abajo en el título del acordeón */
+}
+
+.accordion.active .fa-angle-down {
+    transform: translateY(-50%) rotate(180deg); /* Rotación de la flecha hacia arriba cuando el acordeón está activo */
+}

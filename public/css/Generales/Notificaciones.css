@@ -1,0 +1,22 @@
+.centrar-vertical{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+li{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.notificacion{
+    height: 65px
+}
+
+.notificacion:hover{
+    opacity: 0.5;
+}
+
