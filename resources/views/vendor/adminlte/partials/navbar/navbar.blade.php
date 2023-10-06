@@ -18,7 +18,7 @@
     <ul class="navbar-nav ml-auto">
         {{-- Custom right links --}}
         @yield('content_top_nav_right')
-        <livewire:boton-notificaciones />
+        <livewire:boton-notificaciones/>
         {{-- Configured right links --}}
         @each('adminlte::partials.navbar.menu-item', $adminlte->menu('navbar-right'), 'item')
 

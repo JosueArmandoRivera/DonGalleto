@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Administrador\AreasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Generales\LoginController;
 use App\Http\Controllers\Generales\DashboardController;
@@ -8,6 +9,8 @@ use App\Http\Controllers\Generales\ConfiguracionNotificacionesController;
 use App\Http\Controllers\Generales\NotificacionesController;
 use App\Http\Controllers\Administrador\PerfilAdministradorController;
 use App\Http\Controllers\Generales\PageErrorController;
+use App\Models\Generales\Usuarios;
+use App\Http\Controllers\Administrador\UsuariosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,3 +71,34 @@ Route::middleware('auth')->group(function () {
 Route::GET('/404PermisoDenegado', [PageErrorController::class, 'index'])->name('error.index');
 Route::GET('/404PaginaNoEncontrada', [PageErrorController::class, 'noEncontrada'])->name('error.noEncontrada');
 Route::GET('/500ErrorServidor', [PageErrorController::class, 'error500'])->name('error.error500');  //Este tiene una liga o URL, sin embargo solo es para la exposicion de la visualización de la pagina
+
+
+//Rutas para módulo de categorias
+/* Creado por: Armando Rivera
+   Fecha de creación: 03/10/2023
+   Descripcion: rutas que redirigen al controlador de áreas */
+   Route::controller(AreasController::class)->group(function () {     //Como todas las rutas tienen el mismo controlador las podemos meter en un grupo
+    //Route::middleware('auth', 'prohibirRetroceso')->group(function () {
+      Route::GET('/areas', 'index');                 //Ruta que retorna la interfaz principal
+      Route::GET('/areas/armarTabla', 'armarTabla'); //Rutas para contruir la tabla
+      Route::POST('/areas/store', 'store');       //Rutas para agregar una nueva marca
+      Route::GET('/areas/consultar', 'show');        //Ruta para consultar los detalles de una marca
+      Route::POST('/areas/modificar', 'update');     //Ruta para actualizar una marca
+      Route::POST('/areas/eliminar', 'destroy');     //Ruta para eliminar una o varias marcas
+    //});
+  });
+
+//Rutas para módulo de categorias
+/* Creado por: Armando Rivera
+   Fecha de creación: 05/10/2023
+   Descripcion: rutas que redirigen al controlador de Usuarios */
+   Route::controller(UsuariosController::class)->group(function () {     //Como todas las rutas tienen el mismo controlador las podemos meter en un grupo
+    //Route::middleware('auth', 'prohibirRetroceso')->group(function () {
+      Route::GET('/usuarios', 'index');                 //Ruta que retorna la interfaz principal
+      Route::GET('/usuarios/armarTabla', 'armarTabla'); //Rutas para contruir la tabla
+      Route::POST('/usuarios/store', 'store');       //Rutas para agregar una nueva marca
+      Route::GET('/usuarios/consultar', 'show');        //Ruta para consultar los detalles de una marca
+      Route::POST('/usuarios/modificar', 'update');     //Ruta para actualizar una marca
+      Route::POST('/usuarios/eliminar', 'destroy');     //Ruta para eliminar una o varias marcas
+    //});
+  });

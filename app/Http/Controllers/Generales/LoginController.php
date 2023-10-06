@@ -68,7 +68,7 @@ class LoginController extends Controller
                     // Autenticación exitosa
                     Auth::loginUsingId($user[0]->Id_Usuario);
                     //En la sesion metemos el id de la unidad a la que pertenece el usuario
-                    Session::put('Id_Unidad_Admin', $user[0]->Id_Unidad_Admin);
+                    Session::put('Id_Area', $user[0]->Id_Area);
                     Session::put('Nombres', $user[0]->Nombres);
                     //Retornamos la direccion a la ruta princiapl
                     return response()->json(['status' => "success", 'redirect' => route('index')]);

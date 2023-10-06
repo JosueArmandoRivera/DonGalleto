@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Generales;
 
+use stdClass;
+use Exception;
+//use App\Http\Requests\Generales\ConfiguracionNotificaciones\UpdateRequest;
+use Throwable;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Generales\ConfiguracionNotificaciones\ShowRequest;
 use App\Http\Requests\Generales\ConfiguracionNotificaciones\UpdateRequest;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use stdClass;
-use Throwable;
 
 class ConfiguracionNotificacionesController extends Controller
 {
