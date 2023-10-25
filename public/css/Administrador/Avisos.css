@@ -1,0 +1,71 @@
+.banner{
+    background-color: white;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+}
+.titulo{
+    text-align: center;
+}
+
+.container {
+    
+    align-items: center;
+    border: 1px solid #ccc;
+     padding: 10px; 
+    /* margin: 10px; */
+   
+    width: 100%; /* Ocupa todo el ancho disponible en dispositivos más pequeños */
+    max-width: calc(33% - 20px); /* Limita el ancho en dispositivos más grandes para mostrar 3 elementos por fila */
+    margin-bottom: 10px;    
+    background-color: white;
+  }
+  
+  .document-icon {
+    font-size: 24px;
+    margin-right: 20px;
+  }
+  
+  .document-details {
+    flex: 1;
+  }
+  
+  .view-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .view-button:hover {
+    background-color: #0056b3;
+  }
+  .contenedor-Contenedores{
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+.contenidoTexto{
+    margin: 10px;
+}
+@media (max-width: 767px) {
+    .container {
+        max-width: calc(50% - 20px);
+    }
+}
+.delete-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    color: #000; /* Color del icono por defecto */
+    transition: color 0.3s; /* Transición de color para el cambio al pasar el mouse por encima */
+  }
+  
+  .delete-icon:hover {
+    color: #ff0000; /* Cambio de color al pasar el mouse por encima */
+  }
+  

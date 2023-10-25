@@ -14,6 +14,9 @@ use App\Http\Requests\Administrador\Areas\ShowRequest;
 use App\Http\Requests\Administrador\Areas\StoreRequest;
 use App\Http\Requests\Administrador\Areas\UpdateRequest;
 use App\Http\Requests\Administrador\Areas\DestroyRequest;
+use PhpParser\Node\Expr\AssignOp\Concat;
+
+use function Laravel\Prompts\select;
 
 class AreasController extends Controller
 {
@@ -21,8 +24,8 @@ class AreasController extends Controller
         //Función para retornar la vista principal
         public function index()
         {
-    
-            return view("Administrador.Areas");
+            $rol = DB::select("SELECT * FROM Roles;");
+            return view("Administrador.Areas", compact('rol'));
         }
     
         //Funcion que realiza una consulta y me retorna los datos que se mostrarán en un select dentro del formulario
@@ -197,7 +200,7 @@ class AreasController extends Controller
 
             public function update(UpdateRequest $request)
             {
-                try{          
+                try{          //dd($request);
                     $areas = new Areas();
                     $areas->Id_Area = $request->idArea;
                     $areas->Nombre_Area = $request->nombreArea;

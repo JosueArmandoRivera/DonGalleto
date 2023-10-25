@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Usuarios')
+@section('title', 'Tipos de Pases')
 
 @section('content_header')
     {{-- <h1>Areas</h1> --}}
-    @include('Layouts.header', ['nombreModulo' => "Usuarios"])
+    @include('Layouts.header', ['nombreModulo' => "Tipos de Pases"])
     <meta name="csrf-token" content="{{ csrf_token()}}" />
     <style>
         .select2-container .select2-selection--single{
@@ -29,7 +29,7 @@
         $permisoPagina = false; // Valor predeterminado en caso de que no se cumpla ninguna condición
     @endphp
     @foreach (session('permisos') as $moduloID => $permisos)
-        @if ($moduloID == 3)
+        @if ($moduloID == 1)
             {{-- Debes colocar el id del modulo --}}
             @php
                 $permisoPagina = true; //Variable para saber si tiene permiso al modulo
@@ -60,7 +60,7 @@
 
             <div class="card shadow">
                 <div class="card-header bg-dark d-flex justify-content-between align-items-center">
-                    <h3 class="text-light">Registros de Usuarios</h3>
+                    <h3 class="text-light">Registros de Tipos de Pases</h3>
                 </div>
                 <div class="card-body" id="show">
                     <h1 class="text-center text-secondary my-5"><i class="fa fa-spin fa-spinner"></i> Cargando...</h1>
@@ -68,75 +68,53 @@
             </div>
 
             {{-- Modal para agregar un nuevo registro --}}
-            <x-adminlte-modal id="modalUsuarios" size="lg" class="ml-auto" theme="dark" icon="fa-circle-plus"
+            <x-adminlte-modal id="modalTiposPases" size="lg" class="ml-auto" theme="dark" icon="fa-circle-plus"
                 v-centered static-backdrop scrollable>
-                <form id="formularioUsuarios" name="formularioUsuarios" enctype="multipart/form-data">
+                <form id="formularioTiposPases" name="formularioTiposPases" enctype="multipart/form-data">
                     @csrf
                     <div class="d-none">
                         <x-adminlte-input name="idUsuario" label="Id" placeholder=""
                             id="idUsuario" type="text" fgroup-class="col-md-12 mb-2" disabled
                             disable-feedback />
                     </div>
+                    
+                    <x-adminlte-input name="nombre" label="*Nombre" placeholder=""
+                    id="nombre" type="text" fgroup-class="col-md-12 mb-2" disabled
+                    disable-feedback />
+       
                     <div class="d-flex">
-                        <div class="d-block col-md-6">
-                                
-                                    <x-adminlte-input name="nombres" label="*Nombres" placeholder=""
-                                        id="nombres" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                           
-                                    <x-adminlte-input name="apellidoPaterno" label="*Apellido Paterno" placeholder=""
-                                        id="apellidoPaterno" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                             
-                                    <x-adminlte-input name="apellidoMaterno" label="*Apellido Materno" placeholder=""
-                                        id="apellidoMaterno" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                                   
-                                    <label for="idRol">*Rol de Usuario</label>
-                                    <div class="input-group mb-2">
-                                        <select name="idRol" class="form-control" id="idRol"disabled>
-                                            <option disabled selected value="">Selecciona un Rol</option>
-                                            @foreach ($rol as $rol)
-                                                <option value="{{ $rol->Id_Rol }}">{{ $rol->Nombre}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                           
-                                    <label for="idArea">*Area</label>
-                                    <div class="input-group mb-2">
-                                        <select name="idArea" class="form-control" id="idArea" disabled>
-                                            <option disabled selected value="">Selecciona un Area</option>
-                                            @foreach ($area as $area)
-                                                <option value="{{ $area->Id_Area }}">{{ $area->Nombre_Area}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                               
+                        <div class="d-block col-md-6" >                             
+                                <label for="idDocumentos">*Rol de Usuario</label>
+                                <div class="input-group mb-2" >
+                                    <select name="idDocumentos" class="form-control" id="idDocumentos">
+                                            <option disabled selected value="">Selecciona los documentos solicitados</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                       
+                                        @foreach ($rol as $rol)
+                                            <option value="{{ $rol->Id_Rol }}">{{ $rol->Nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            <a href="" style="text-decoration: underline;">Registra un nuevo Documento </a>                       
+                            
                         </div>
                         <div class="d-block col-md-6">                           
-                                
-                                    <x-adminlte-input name="telefonoEmpresarial" label="*Teléfono Empresarial" placeholder=""
-                                        id="telefonoEmpresarial" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                                
-                                    <x-adminlte-input name="telefonoPersonal" label="*Teléfono Personal" placeholder=""
-                                        id="telefonoPersonal" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                                        
-                                    <x-adminlte-input name="extensionTelefono" label="*Extensión Teléfono" placeholder=""
-                                        id="extensionTelefono" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback /> 
-                               
-                                    <x-adminlte-input name="whatsApp" label="*Whats App" placeholder=""
-                                        id="whatsApp" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                           
-                                    <x-adminlte-input name="email" label="*E-mail" placeholder=""
-                                        id="email" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                               
-                        </div> 
-                                    
+                            <label for="usarUnaVez">Válido sólo una vez</label>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="usarUnaVez">
+                                  <label class="custom-control-label" for="usarUnaVez">Usar pase sólo una vez</label>
+                                </div>                             
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="d-block col-md-12">
+                        <label for="descripcion">Descripción del Tipo de Pase</label>
+                        <div>
+                            <textarea name="descripcion" id="descripcion" style="width: 100%; height: 150px; resize: none;"></textarea>
+                        </div>
+
                     </div>
                  
                     <div class="col-md-12">
@@ -150,9 +128,9 @@
                     <x-slot name="footerSlot">
                         <x-adminlte-button theme="danger" class="ml-auto" label="Cerrar" id="btnCerrarModal" icon="fa-regular fa-circle-xmark fa-lg"/>
                         <x-adminlte-button class="btn-flat" type="submit" id="btnEditarModal" label="Editar" icon="fa-regular fa-pen-to-square fa-lg"
-                            theme="primary" form="formularioUsuarios" />
+                            theme="primary" form="formularioTiposPases" />
                         <x-adminlte-button class="btn-flat" id="btnAgregar" type="submit" label="Agregar" icon="fa-regular fa-floppy-disk fa-lg"
-                            theme="success" form="formularioUsuarios" />
+                            theme="success" form="formularioTiposPases" />
                     </x-slot>
                 </form>
             </x-adminlte-modal>
@@ -178,7 +156,12 @@
     <link rel="stylesheet" href="js/Generales/Plugins/fontawesome-6.4.0/css/all.min.css">
     <link rel="stylesheet" href="js/Generales/Plugins/animate-css/animatecss.css" />
     <link rel="stylesheet" href="css/Generales/estilos.css">
-@stop
+    <link rel="stylesheet" href="css/Administrador/TiposPases.css">
+
+    {{--  <link href="https://unpkg.com/bootstrap@3.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>--}}
+    <link href="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/css/bootstrap-multiselect.css" rel="stylesheet"/>    
+
+@stop<link rel="stylesheet" href="{{ asset('css/bootstrap-multiselect.css') }}" type="text/css">
 
 @section('js')
     {{-- <script src="js/Generales/Plugins/jquery/jquery-3.7.0.js"></script> --}}
@@ -190,7 +173,13 @@
     <script src="js/Generales/Plugins/sweetalert/sweetalert2.js" charset="UTF-8"></script>
     <script src="js/Generales/Plugins/fontawesome-6.4.0/js/all.min.js" charset="UTF-8"></script>
     <script src="js/Generales/Validaciones/PeticionAjax.js"></script>
-    <script src="js/Administrador/Usuarios.js"></script>
+    <script src="js/Administrador/TiposPases.js"></script>
+
+    <script src="{{ asset('js/bootstrap-multiselect.js') }}"></script>
+    {{--  <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>  --}}
+    {{--  <script src="https://unpkg.com/bootstrap@3.3.2/dist/js/bootstrap.min.js"></script>  --}}
+    <script src="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/js/bootstrap-multiselect.js"></script> 
+
     @if (Auth::user()->Primer_Cambio_Contrasena == '1')
         <script>
             $("#modalPrimerCambioContrasena").modal("show");

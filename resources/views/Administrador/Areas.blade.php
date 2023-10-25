@@ -77,20 +77,6 @@
                             disable-feedback />
                     </div>
 
-                    <div class="col-md-12 my-3 d-none" id="tablaAdm">
-                        <label for="">Administradores de la unidad</label>
-                        <div class="card-body p-0" style="max-height: 200px; overflow-y: auto;" id="show-2">
-                            <h1 class="text-center text-secondary my-5"><i class="fa fa-spin fa-spinner"></i> Cargando...
-                            </h1>
-                        </div>
-                    </div>
-                    <div class="col-md-12 my-3 d-none" id="tablaCol">
-                        <label for="">Colaboradores de la unidad</label>
-                        <div class="card-body p-0" style="max-height: 300px; overflow-y: auto;" id="show-3">
-                            <h1 class="text-center text-secondary my-5"><i class="fa fa-spin fa-spinner"></i> Cargando...
-                            </h1>
-                        </div>
-                    </div>
                     <div class="col-md-12">
 
                         <p class="font-italic my-2">Los campos marcados con * son obligatorios</p>

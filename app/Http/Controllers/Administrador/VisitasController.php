@@ -7,26 +7,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Administrador\Persona;
-use App\Models\Administrador\Usuarios;
-use Illuminate\Support\Facades\Session;
-use App\Http\Requests\Administrador\Usuarios\ShowRequest;
-use App\Http\Requests\Administrador\Usuarios\StoreRequest;
-use App\Http\Requests\Administrador\Usuarios\UpdateRequest;
-use App\Http\Requests\Administrador\Usuarios\DestroyRequest;
+use App\Http\Requests\Administrador\Visitas\ShowRequest;
+use App\Http\Requests\Administrador\Visitas\StoreRequest;
+use App\Http\Requests\Administrador\Visitas\UpdateRequest;
+use App\Http\Requests\Administrador\Visitas\DestroyRequest;
 
-
-class UsuariosController extends Controller
+class VisitasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+ 
+      
     public function index()
     {
-        $rol = DB::select("SELECT * FROM Roles;");
+        $idUsuario = Auth::user()->id;
+        $usuarios = DB::select("SELECT Id_Usuario, Email FROM Usuarios where Estatus = 1;");
+        $visitantes = DB::select("SELECT Id_Persona, Nombres FROM Personas where Estatus = 1;");
         $area = DB::select("SELECT * FROM Areas;");
-        return view("Administrador.Usuarios", compact('rol','area'));
+        $tipoPase = DB::select("SELECT Id_Tipo_Pase, Nombre,Usar_Una_Vez FROM Tipos_Pases where Estatus = 1;");
+        return view("Administrador.Visitas", compact('idUsuario','usuarios','area','visitantes','tipoPase'));
     }
 
   
@@ -65,7 +63,7 @@ class UsuariosController extends Controller
             return response()->json(['status' => 'error', 'titulo' => 'Error al consultar la tabla', "mensaje" => "<br>Código de error: " . $e->getCode() . "<br><br>El sistema arrojó el mensaje: " . $e->getMessage()]);
         }
         //En la variable tabla colocamos la estructura de la tabla
-        $tabla = '<div class="table-responsive"><table id="tablaUsuarios" class="table table-hoverdisplay table-striped table-hover no-wrap" width="100%">
+        $tabla = '<div class="table-responsive"><table id="tablaVisitantes" class="table table-hoverdisplay table-striped table-hover no-wrap" width="100%">
                                 <thead class="bg-dark">
                                     <tr>
                                         <td width="10%" class="d-none">Id</td>';
@@ -73,10 +71,8 @@ class UsuariosController extends Controller
         $tabla .=                      "<td style='text-align: center'>
                                            <input type='checkbox' class='chTodos' id='chTodosP'></td>
                                         </td>";
-                                     }
-                                
-        $tabla .=                      '<td width="15%">Disponible</td>
-                                        <td width="20%">Nombre Usuario</td>
+                                     }                               
+        $tabla .=                      '<td width="20%">Nombre Visitantes</td>
                                         <td width="15%">Teléfono Personal</td>
                                         <td width="15%">Whats App</td>
                                         <td width="15%">E-mail</td>';
@@ -91,8 +87,8 @@ class UsuariosController extends Controller
 
         try {    //Abrimos un catch
             //dd(Auth::user()->Id_Usuario);
-            $query = DB::select('EXEC SP_Usuarios_Seleccionar ?', [Auth::user()->Id_Usuario]);   //Ejecutamos el SP para seleccionar todos los registros
-           
+            $query = DB::select('EXEC SP_Visitantes_Seleccionar ?', [Auth::user()->Id_Usuario]);   //Ejecutamos el SP para seleccionar todos los registros
+            //dd($query);
             if (empty($query)) {    //Si la variable query esta vacía
                 
                 $tabla .= '</tbody></table><div>'; //Cerramos la estructura de la tabla
@@ -109,52 +105,52 @@ class UsuariosController extends Controller
                 } else {    //En caso constrario significa que la query trae datos en su consulta
                     foreach ($query as $usuarios) {   //Abrimos un foreach y vamos armando todas las columnas de la tabla
                         $tabla .= '<tr>
-                                    <td class="d-none">' . $usuarios->Id_Usuario . '</td>';
+                                    <td class="d-none">' . $usuarios->Id_Persona . '</td>';
                                     if ($permisoEliminar) {
-                                        $tabla .= '<td class="text-center"><input type="checkbox" class="eliminarMasivo_checkbox" idUsuario="' . $usuarios->Id_Usuario . '"></td>';
+                                        $tabla .= '<td class="text-center"><input type="checkbox" class="eliminarMasivo_checkbox" idPersona="' . $usuarios->Id_Persona . '"></td>';
                                     }
-                                    if ($usuarios->Disponible == '1') {
-                                        //Agregamos la palabra habilitada en la tabla
-                                        $tabla .= '<td title="Disponible"> <i class="fa-solid fa-circle" style="color: #44ff00;"></i> Disponible   </td>';
-                                    } else if ($usuarios->Disponible == '0') {
-                                        $tabla .= '<td title="Disponible"> <i class="fa-solid fa-circle" style="color: #ff0000;"></i> No disponible</td>';
-                                    }
+                                    // if ($usuarios->Disponible == '1') {
+                                    //     //Agregamos la palabra habilitada en la tabla
+                                    //     $tabla .= '<td title="Disponible"> <i class="fa-solid fa-circle" style="color: #44ff00;"></i> Disponible   </td>';
+                                    // } else if ($usuarios->Disponible == '0') {
+                                    //     $tabla .= '<td title="Disponible"> <i class="fa-solid fa-circle" style="color: #ff0000;"></i> No disponible</td>';
+                                    // }
                                       $tabla .='<td title="' . $usuarios->Nombres . '">' . $usuarios->Nombres . '</td>
                                                 <td title="' . $usuarios->Telefono_Personal . '">' . $usuarios->Telefono_Personal . '</td>
-                                                <td title="' . $usuarios->Whatsapp . '">' . $usuarios->Whatsapp . '</td>
-                                                <td title="' . $usuarios->email . '">' . $usuarios->email . '</td>';
+                                                <td title="' . $usuarios->WhatsApp . '">' . $usuarios->WhatsApp . '</td>
+                                                <td title="' . $usuarios->Email . '">' . $usuarios->Email . '</td>';
                         //Si alguno de los tres permisos es true agregamos el apartado de acciones
                         if ($permisoConsultar || $permisoModificar || $permisoEliminar) {
                             //Si el estatus de la unidad administrativa es igual a 1
-                            if ($usuarios->Disponible == '1') {
+                           // if ($usuarios->Disponible == '1') {
                                 //Agregamos la palabra habilitada en la tabla
                                 // $tabla .= '<td title="Disponible"> <i class="fa-solid fa-circle" style="color: #44ff00;"></i> Disponible</td><td class="text-center">';
                                 $tabla .= '<td title="Disponible"  class="text-center">';
                                 if ($permisoConsultar) { //Si el permiso de consultar es true, agregamos el boton para los detalles
-                                    $tabla .= '<a href="#" idUsuario="' . $usuarios->Id_Usuario . '" id="verUsuario" title="Detalles de la unidad administrativa" class="btn btn-sm  btn-default text-dark  m-1 p-1 shadow"> <i class="fa-solid fa-eye fa-lg"></i><a/>';
+                                    $tabla .= '<a href="#" idPersona="' . $usuarios->Id_Persona . '" id="verVisitante" title="Detalles de la unidad administrativa" class="btn btn-sm  btn-default text-dark  m-1 p-1 shadow"> <i class="fa-solid fa-eye fa-lg"></i><a/>';
                                 }
                                 if ($permisoModificar) { //Si el permiso de modificar el true, agregamos el boton para la modificacion del area
-                                    $tabla .= '<a href="#" idUsuario="' . $usuarios->Id_Usuario . '" id="editarUsuario" title="Modificar unidad administrativa" class="btn btn-sm  btn-default text-dark m-1 p-1 shadow"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>';
+                                    $tabla .= '<a href="#" idPersona="' . $usuarios->Id_Persona . '" id="editarVisitante" title="Modificar unidad administrativa" class="btn btn-sm  btn-default text-dark m-1 p-1 shadow"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>';
                                 }
                                 if ($permisoEliminar) { //Si el permiso eliminar es true, agregamos el botón en el apartado de acciones
-                                    $tabla .= '<a href="#" idUsuario="' . $usuarios->Id_Usuario . '" id="eliminarUsuario" title="Eliminar unidad administrativa" class="btn btn-sm btn-default text-dark m-1 p-1 shadow"><i class="fa-solid fa-trash-can fa-lg"></i></a>';
+                                    $tabla .= '<a href="#" idPersona="' . $usuarios->Id_Persona . '" id="eliminarVisitante" title="Eliminar unidad administrativa" class="btn btn-sm btn-default text-dark m-1 p-1 shadow"><i class="fa-solid fa-trash-can fa-lg"></i></a>';
                                 }
-                            } else {    //En caso de que el estatus sea diferente de 1
-                                //Agregamos una columna en tabla con la palabra deshabilitada
-                                //$tabla .= '<td title="Disponible"><i class="fa-solid fa-circle" style="color: #ff0000;"></i> No disponible</td><td class="text-center">';
-                                $tabla .= '<td title="Disponible" class="text-center">';
-                                if ($permisoConsultar) {//Si el permiso de consultar es true, agregamos el boton para los detalles
-                                    $tabla .= '<a href="#" idUsuario="' . $usuarios->Id_Usuario . '" id="verUsuario" title="Detalles de la categoría" class="btn btn-sm  btn-default text-dark  m-1 p-1 shadow"> <i class="fa-solid fa-eye fa-lg"></i><a/>';
-                                }
-                                if ($permisoModificar) {//Si el permiso de modificar el true, agregamos el boton para la modificacion del area
-                                    $tabla .= '<a href="#" idUsuario="' . $usuarios->Id_Usuario . '" id="editarUsuario" title="Modificar unidad administrativa" class="btn btn-sm  btn-default text-dark m-1 p-1 shadow"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>';
-                                }
-                                if ($permisoEliminar) { //Si el permiso eliminar es true, agregamos el botón en el apartado de acciones
-                                    $tabla .= '<a href="#" idUsuario="' . $usuarios->Id_Usuario . '" id="eliminarUsuario" title="Eliminar unidad administrativa" class="btn btn-sm btn-default text-dark m-1 p-1 shadow"><i class="fa-solid fa-trash-can fa-lg"></i></a>';
-                                }
-                            }
+                            // } else {    //En caso de que el estatus sea diferente de 1
+                            //     //Agregamos una columna en tabla con la palabra deshabilitada
+                            //     //$tabla .= '<td title="Disponible"><i class="fa-solid fa-circle" style="color: #ff0000;"></i> No disponible</td><td class="text-center">';
+                            //     $tabla .= '<td title="Disponible" class="text-center">';
+                            //     if ($permisoConsultar) {//Si el permiso de consultar es true, agregamos el boton para los detalles
+                            //         $tabla .= '<a href="#" idUsuario="' . $usuarios->Id_Persona . '" id="verUsuario" title="Detalles de la categoría" class="btn btn-sm  btn-default text-dark  m-1 p-1 shadow"> <i class="fa-solid fa-eye fa-lg"></i><a/>';
+                            //     }
+                            //     if ($permisoModificar) {//Si el permiso de modificar el true, agregamos el boton para la modificacion del area
+                            //         $tabla .= '<a href="#" idUsuario="' . $usuarios->Id_Persona . '" id="editarUsuario" title="Modificar unidad administrativa" class="btn btn-sm  btn-default text-dark m-1 p-1 shadow"> <i class="fa-solid fa-pen-to-square fa-lg"></i></a>';
+                            //     }
+                            //     if ($permisoEliminar) { //Si el permiso eliminar es true, agregamos el botón en el apartado de acciones
+                            //         $tabla .= '<a href="#" idUsuario="' . $usuarios->Id_Persona . '" id="eliminarUsuario" title="Eliminar unidad administrativa" class="btn btn-sm btn-default text-dark m-1 p-1 shadow"><i class="fa-solid fa-trash-can fa-lg"></i></a>';
+                            //     }
+                            // }
                                     $tabla .= '</td>';
-                        }
+                       }
                         $tabla .= '</tr>';
                     }
                     $tabla .= '</tbody></table><div>';  //Cerramos la estructura de la tabla
@@ -174,7 +170,7 @@ class UsuariosController extends Controller
         //dd($request);
         try {    //Abrimos un try            
             // $Persona = new Persona();   
-            $Usuarios = new Usuarios();
+            $Usuarios = new Persona();
             $Usuarios->Id_Usuario = Auth::user()->Id_Usuario;
             //dd(Auth::user()->Id_Usuario);
             $Usuarios->Nombres = $request->nombres;
@@ -186,10 +182,8 @@ class UsuariosController extends Controller
             $Usuarios->Extension_Telefono = $request->extensionTelefono;
             $Usuarios->WhatsApp = $request->whatsApp;
             $Usuarios->Email = $request->email;
-            $Usuarios->Id_Rol = $request->idRol;
-            $Usuarios->Id_Area = $request->idArea;
             $submit = DB::select(
-                'EXEC SP_Usuarios_Insertar ?,?,?,?,?,?,?,?,?,?,?', //El valor 1 corresponde al usuario que hace la acción, por mientras es 1 xD, y el valor 2 es el módulo
+                'EXEC SP_Visitantes_Insertar ?,?,?,?,?,?,?,?,?', //El valor 1 corresponde al usuario que hace la acción, por mientras es 1 xD, y el valor 2 es el módulo
                 [
                     $Usuarios->Nombres,
                     $Usuarios->Apellido_Paterno,
@@ -198,9 +192,7 @@ class UsuariosController extends Controller
                     $Usuarios->Telefono_Empresarial,
                     $Usuarios->Extension_Telefono,
                     $Usuarios->WhatsApp,
-                    $Usuarios->Email,                   
-                    $Usuarios->Id_Area,
-                    $Usuarios->Id_Rol,
+                    $Usuarios->Email,
                     Auth::user()->Id_Usuario
                 ]
             );
@@ -230,9 +222,9 @@ class UsuariosController extends Controller
     public function show(ShowRequest $request)  //Recibimos un request de tipo showrequest ya que ahi están las validaciones de los datos
     {    
         try{
-            $idUsuario = $request->idUsuario;  
+            $idPersona = $request->idPersona;  
             $submit = DB::select(
-                'EXEC SP_Usuarios_Seleccionar_1 ?,?', [$idUsuario,Auth::user()->Id_Usuario]);
+                'EXEC SP_Visitantes_Seleccionar_1 ?,?', [$idPersona,Auth::user()->Id_Usuario]);
             if (!empty($submit)) {  //Validamos si la variable no viene vacía
                 //Retornamos un json con los datos que podemos mostrar en una alerta status, titulo y mensaje, además de los datos obtenidos
                 return response()->json(['status' => 'success', 'titulo' => 'Consulta exitosa', 'mensaje' => 'Se consultó exitosamente', "datos" => $submit]);
@@ -248,8 +240,8 @@ class UsuariosController extends Controller
         public function update(UpdateRequest $request)
         {
             try{          
-                $Usuarios = new Usuarios();
-                $Usuarios->Id_Usuario=$request->idUsuario;
+                $Usuarios = new Persona();
+                $Usuarios->Id_Usuario=$request->idPersona;
                 //dd(Auth::user()->Id_Usuario);
                 $Usuarios->Nombres = $request->nombres;
                 //dd($Usuarios->Nombres);
@@ -303,17 +295,11 @@ class UsuariosController extends Controller
                 $correctos = [];
                 $conError = [];
                 $referenciados = [];
-                
+                //dd($ids);
                 foreach($ids as $id){ 
-                    $verificar = DB::SELECT('SELECT * FROM USUARIOS WHERE Id_Usuario = ' .Auth::user()->Id_Usuario );
-                    if(!empty($verificar)){
-                        return response()->json(['status' => 'error', 'titulo' => 'No se pudo realizar la eliminación', "mensaje" => "<br>Un usuario no se puede eliminar así mismo<br>"]);                  
-                    }else{
-                        $query = DB::SELECT('EXEC SP_Usuarios_Eliminar ?,?', [$id, Auth::user()->Id_Usuario ]);
-                        array_push($resultados,$query);   
-                    }           
-                }
-    
+                        $query = DB::SELECT('EXEC SP_Visitantes_Eliminar ?,?', [$id, Auth::user()->Id_Usuario ]);
+                        array_push($resultados,$query);                     
+                }   
                 foreach($resultados as $r){
                     if ($r[0]->respuesta == 'Eliminacion Exitosa') {  //Si el sp se ejecuta de forma correcta, retorna una variable de respuesta con el valor de aprobado             
                         array_push($correctos, "<br>".$r[0]->respuesta);                

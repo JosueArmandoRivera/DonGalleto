@@ -1,0 +1,16 @@
+
+.select-option {
+    display: block;
+    margin: 5px 0;
+}
+
+select {
+    display: none;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+.multiselect-container>li>a>label {
+    padding: 4px 20px 3px 20px;
+  }

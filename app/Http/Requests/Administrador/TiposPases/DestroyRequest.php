@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Administrador\Administradoress;
+namespace App\Http\Requests\Administrador\TiposPases;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 class DestroyRequest extends FormRequest
 {
-    //Validaciones para ell proceso de eliminacion
+    //Validaciones para el proceso de eliminacion de una unidad administrativa
     public function authorize(): bool
     {
         return true;        //Tenemos que activar esto ya que si lo dejamos en false es como decir que el usuario no tiene acceso a esto
@@ -15,8 +15,8 @@ class DestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //el objeto datos tiene las validacions de requerido y tiene que ser un array
-            "datos" => "required|array",
+            //el arreglo datos tiene las validacions de requerido y tiene que ser un array
+            "datos" => "required",
         ];
     }
 
@@ -25,8 +25,6 @@ class DestroyRequest extends FormRequest
         return[
             //Si no cumple con el requerido se muestra este mensaje
             "datos.required" => "No se recibió ningún identificador",
-            //Si no es un arreglo se muestra este mensaje
-            "datos.array" => "No se recibió un arreglo",
         ];
     }
 }

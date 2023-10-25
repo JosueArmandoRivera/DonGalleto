@@ -21,7 +21,7 @@
     @endphp
 
     @foreach (session('permisos') as $moduloID => $permisos)
-        @if ($moduloID == 5)
+        @if ($moduloID == 8)
             {{-- Debes colocar el id del modulo --}}
             @php
                 $permisoPagina = true; //Variable para saber si tiene permiso al modulo

@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Usuarios')
+@section('title', 'Visitantes')
 
 @section('content_header')
     {{-- <h1>Areas</h1> --}}
-    @include('Layouts.header', ['nombreModulo' => "Usuarios"])
+    @include('Layouts.header', ['nombreModulo' => "Visitantes"])
     <meta name="csrf-token" content="{{ csrf_token()}}" />
     <style>
         .select2-container .select2-selection--single{
@@ -53,14 +53,14 @@
                         {{-- Si el permiso es Insertar, que permita mostrarlo --}}
                         <!--Boton para agregar un nuevo registro-->
                         <x-adminlte-button label="Nuevo" id="btnNuevoUsuario" class="bg-green" icon="fa-solid fa-plus"
-                            title="Agregar un Usuario" />
+                            title="Agregar un Visitante" />
                     @endif
                 @endforeach
             </div>
 
             <div class="card shadow">
                 <div class="card-header bg-dark d-flex justify-content-between align-items-center">
-                    <h3 class="text-light">Registros de Usuarios</h3>
+                    <h3 class="text-light">Registros de Visitantes</h3>
                 </div>
                 <div class="card-body" id="show">
                     <h1 class="text-center text-secondary my-5"><i class="fa fa-spin fa-spinner"></i> Cargando...</h1>
@@ -68,17 +68,30 @@
             </div>
 
             {{-- Modal para agregar un nuevo registro --}}
-            <x-adminlte-modal id="modalUsuarios" size="lg" class="ml-auto" theme="dark" icon="fa-circle-plus"
+            <x-adminlte-modal id="modalVistantes" size="lg" class="ml-auto" theme="dark" icon="fa-circle-plus"
                 v-centered static-backdrop scrollable>
-                <form id="formularioUsuarios" name="formularioUsuarios" enctype="multipart/form-data">
+                <form id="formularioVisitantes" name="formularioVisitantes" enctype="multipart/form-data">
                     @csrf
                     <div class="d-none">
-                        <x-adminlte-input name="idUsuario" label="Id" placeholder=""
-                            id="idUsuario" type="text" fgroup-class="col-md-12 mb-2" disabled
+                        <x-adminlte-input name="idPersona" label="Id" placeholder=""
+                            id="idPersona" type="text" fgroup-class="col-md-12 mb-2" disabled
                             disable-feedback />
                     </div>
-                    <div class="d-flex">
-                        <div class="d-block col-md-6">
+                    <div class="d-block col-md-12 mb-4">
+                        <div class="photo-upload">
+                            <label for="photo" class="photo-circle">
+                                <div class="d-block">
+                                    <i class="fas fa-camera camara"></i>
+                                    <input type="file" id="photo" accept="image/*" />
+                                </div>
+                                <i class="fas fa-plus green-icon"></i> <!-- Icono de suma -->  
+                            </label>
+                              
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap">
+                        <div class="d-block col-md-6 col-sm-12">
                                 
                                     <x-adminlte-input name="nombres" label="*Nombres" placeholder=""
                                         id="nombres" type="text" fgroup-class="mb-2" disabled
@@ -91,50 +104,30 @@
                                     <x-adminlte-input name="apellidoMaterno" label="*Apellido Materno" placeholder=""
                                         id="apellidoMaterno" type="text" fgroup-class="mb-2" disabled
                                         disable-feedback />
-                                   
-                                    <label for="idRol">*Rol de Usuario</label>
-                                    <div class="input-group mb-2">
-                                        <select name="idRol" class="form-control" id="idRol"disabled>
-                                            <option disabled selected value="">Selecciona un Rol</option>
-                                            @foreach ($rol as $rol)
-                                                <option value="{{ $rol->Id_Rol }}">{{ $rol->Nombre}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                           
-                                    <label for="idArea">*Area</label>
-                                    <div class="input-group mb-2">
-                                        <select name="idArea" class="form-control" id="idArea" disabled>
-                                            <option disabled selected value="">Selecciona un Area</option>
-                                            @foreach ($area as $area)
-                                                <option value="{{ $area->Id_Area }}">{{ $area->Nombre_Area}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                               
-                        </div>
-                        <div class="d-block col-md-6">                           
-                                
-                                    <x-adminlte-input name="telefonoEmpresarial" label="*Teléfono Empresarial" placeholder=""
-                                        id="telefonoEmpresarial" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                                
-                                    <x-adminlte-input name="telefonoPersonal" label="*Teléfono Personal" placeholder=""
-                                        id="telefonoPersonal" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                                        
-                                    <x-adminlte-input name="extensionTelefono" label="*Extensión Teléfono" placeholder=""
-                                        id="extensionTelefono" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback /> 
-                               
-                                    <x-adminlte-input name="whatsApp" label="*Whats App" placeholder=""
-                                        id="whatsApp" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                           
+                                    
                                     <x-adminlte-input name="email" label="*E-mail" placeholder=""
                                         id="email" type="text" fgroup-class="mb-2" disabled
                                         disable-feedback />
                                
+                        </div>
+                        <div class="d-block col-md-6 col-sm-12">                           
+                                
+                                    
+                                
+                                    <x-adminlte-input name="telefonoPersonal" label="*Teléfono Personal" placeholder=""
+                                        id="telefonoPersonal" type="text" fgroup-class="mb-2" disabled
+                                        disable-feedback />
+                                    
+                                        <x-adminlte-input name="whatsApp" label="*Whats App" placeholder=""
+                                        id="whatsApp" type="text" fgroup-class="mb-2" disabled
+                                        disable-feedback />
+                                       
+                                    <x-adminlte-input name="telefonoEmpresarial" label="*Teléfono Empresarial" placeholder=""
+                                        id="telefonoEmpresarial" type="text" fgroup-class="mb-2" disabled
+                                        disable-feedback />
+                                    <x-adminlte-input name="extensionTelefono" label="*Extensión Teléfono" placeholder=""
+                                        id="extensionTelefono" type="text" fgroup-class="mb-2" disabled
+                                        disable-feedback />                              
                         </div> 
                                     
                     </div>
@@ -150,9 +143,9 @@
                     <x-slot name="footerSlot">
                         <x-adminlte-button theme="danger" class="ml-auto" label="Cerrar" id="btnCerrarModal" icon="fa-regular fa-circle-xmark fa-lg"/>
                         <x-adminlte-button class="btn-flat" type="submit" id="btnEditarModal" label="Editar" icon="fa-regular fa-pen-to-square fa-lg"
-                            theme="primary" form="formularioUsuarios" />
+                            theme="primary" form="formularioVisitantes" />
                         <x-adminlte-button class="btn-flat" id="btnAgregar" type="submit" label="Agregar" icon="fa-regular fa-floppy-disk fa-lg"
-                            theme="success" form="formularioUsuarios" />
+                            theme="success" form="formularioVisitantes" />
                     </x-slot>
                 </form>
             </x-adminlte-modal>
@@ -178,6 +171,9 @@
     <link rel="stylesheet" href="js/Generales/Plugins/fontawesome-6.4.0/css/all.min.css">
     <link rel="stylesheet" href="js/Generales/Plugins/animate-css/animatecss.css" />
     <link rel="stylesheet" href="css/Generales/estilos.css">
+    <link rel="stylesheet" href="css/Administrador/Visitantes.css">
+    
+
 @stop
 
 @section('js')
@@ -190,7 +186,7 @@
     <script src="js/Generales/Plugins/sweetalert/sweetalert2.js" charset="UTF-8"></script>
     <script src="js/Generales/Plugins/fontawesome-6.4.0/js/all.min.js" charset="UTF-8"></script>
     <script src="js/Generales/Validaciones/PeticionAjax.js"></script>
-    <script src="js/Administrador/Usuarios.js"></script>
+    <script src="js/Administrador/Visitantes.js"></script>
     @if (Auth::user()->Primer_Cambio_Contrasena == '1')
         <script>
             $("#modalPrimerCambioContrasena").modal("show");

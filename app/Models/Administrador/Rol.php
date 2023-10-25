@@ -14,4 +14,7 @@ class Rol extends Model
         "Id_Rol",
         "Nombre"
     ];
+    public function menu(){
+        return $this->belongsTo(Menus::class);
+    }
 }

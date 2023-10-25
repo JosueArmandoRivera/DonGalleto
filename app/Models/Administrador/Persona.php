@@ -18,7 +18,8 @@ class Persona extends Model
         "Telefono_Personal",
         "Telefono_Empresarial",
         "Extension_Telefono",
-        "Id_Unidad_Admin"
+        "WhatsApp",
+        "Email"
     ];
 
     public function unidad_administrativa(){
