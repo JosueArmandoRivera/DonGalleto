@@ -15,7 +15,7 @@
     /* margin: 10px; */
    
     width: 100%; /* Ocupa todo el ancho disponible en dispositivos más pequeños */
-    max-width: calc(33% - 20px); /* Limita el ancho en dispositivos más grandes para mostrar 3 elementos por fila */
+    max-width: calc(50% - 20px); /* Limita el ancho en dispositivos más grandes para mostrar 3 elementos por fila */
     margin-bottom: 10px;    
     background-color: white;
   }
@@ -53,7 +53,7 @@
 }
 @media (max-width: 767px) {
     .container {
-        max-width: calc(50% - 20px);
+        max-width: calc(100% - 20px);
     }
 }
 .delete-icon {
@@ -68,4 +68,28 @@
   .delete-icon:hover {
     color: #ff0000; /* Cambio de color al pasar el mouse por encima */
   }
-  
+  .file-upload-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label {
+    cursor: pointer;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.file-label:hover {
+    background-color: #0056b3;
+}
+
+.icon {
+    margin-right: 5px;
+}

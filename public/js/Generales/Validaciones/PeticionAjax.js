@@ -218,6 +218,8 @@ class Peticion {
                         "success",
                         5000
                     );
+                     // Recarga la página después de mostrar la alerta
+                    location.reload();
                 } else if ((response.status = "error")) {
                     //Si el atributo status del json recibido del SERVIDOR el cual nosotros retornamos, es igual a error
                     this.verAlerta(
@@ -445,6 +447,78 @@ class Peticion {
             },
         });
     }
+    modificarRegistroNoTable() {
+        $.ajax({
+            url: this.getUrlPeticion, //Le enviamos la url con el metodo get, esta url se la enviamos del otro js
+            type: "POST", //Como vamos a insertar datos tiene que ser post
+            data: this.getDatosPeticion,
+            //Se utilizan el contentType y el processType como false para establecerle al servidor que no procese los datos
+            //esto funciona cuando se envia un formData o archivos por el ajax
+            contentType: false,
+            processData: false,
+            headers: {
+                //Tenemos que enviar el token de seguridad, este token tiene que estar en la cabecera de nuestro archivo blade.php
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            beforeSend: () => {
+                //Esta función se ejecuta entes de que se envie la petición
+                $(this.getBtnModal.btnEditar).html(
+                    //al botón le agregamos un icono de spinner y le colocamos el texto Actualizando
+                    '<i class="fa fa-spin fa-spinner"></i> Actualizando...'
+                );
+                $(this.getBtnModal.btnEditar).addClass("btn-warning"); //Al mismo bóton le agregamos la clase btn-warning para cambiar el color a amarillo
+                this.verLoader();
+            },
+            success: (response) => {
+                console.log(response)
+                //Es importante utilizar funciones flecha para tener un contexto globlal y no local
+                this.cerrarModal(); //Ocultamos el modal
+                this.resetearFormulario(); //Borramos todos los datos del formulario
+                if (response.status == "success") {
+                    //Si el atributo status de la respuesta del servidor es igual a success
+                    this.verAlerta(
+                        //Mandamos a llamar la funcion para mostrar la alerta
+                        response.titulo, //Le pasamos el titulo
+                        response.mensaje, //Le pasamos el mensaje
+                        response.status //Este campo es el tipo de alerta (success, error, info)
+                    );
+                    this.verAlertaSuperior(
+                        "Modificación exitosa",
+                        "Modificación",
+                        "success",
+                        5000
+                    );
+                    location.reload();
+                } else if ((response.status = "error")) {
+                    //Si el atributo status de la respuesta del serrvidor es igual a error
+                    this.verAlerta(
+                        //Mandamos a llamar la funcion para mostrar la alerta
+                        response.titulo, //Le pasamos el titulo
+                        response.mensaje, //Le pasamos el mensaje
+                        response.status //Este campo es el tipo de alerta (success, error, info)
+                    );
+                    //Tambien llamamos al método para ver la alerta de la superior derecha de la pantalla
+                    //le pasamos el titulo, la descripcion, el tipo de alerta (success, error, info) y el tiempo que va a durar en 5000 = 5 segundos
+                    this.verAlertaSuperior("Error", "Error", "error", 5000);
+                }
+                this.regresarTextoBotones(); //Y le quitamos los estilos que le agregamos al botón
+            },
+            error: (data) => {
+                this.verAlerta(
+                    "No se pudo modificar el registro",
+                    `Estatus: ${data.statusText} <br><br> El sistema arrojó el error: ${data.responseJSON.message}`,
+                    "error"
+                );
+                //Tambien llamamos al método para ver la alerta de la superior derecha de la pantalla
+                //le pasamos el titulo, la descripcion, el tipo de alerta (success, error, info) y el tiempo que va a durar en 5000 = 5 segundos
+                this.verAlertaSuperior("Error", "Error", "error", 5000);
+                this.regresarTextoBotones(); //Y le quitamos los estilos que le agregamos al botón
+            },
+            complete: () => {
+                this.ocultarLoader();
+            },
+        });
+    }
 
     eliminacionRegistros() {
         if (Object.entries(this.getDatosPeticion.datos).length > 0) {
@@ -512,6 +586,116 @@ class Peticion {
                                 );
                                 this.consultarTabla(); //Llamamos al método para refresar nuestra tabla y se cargue el nuevo registro
                             }
+                        },
+                        error: (data) => {
+                            //Mandamos a llamar la funcion para mostrar la alerta
+                            this.verAlerta(
+                                "No se pudo realizar la eliminación",
+                                `Estatus: ${data.statusText} <br><br> El sistema arrojó el error: ${data.responseJSON.message}`,
+                                "error"
+                            );
+                            //Tambien llamamos al método para ver la alerta de la superior derecha de la pantalla
+                            //le pasamos el titulo, la descripcion, el tipo de alerta (success, error, info) y el tiempo que va a durar en 5000 = 5 segundos
+                            this.verAlertaSuperior(
+                                "Error",
+                                "Error",
+                                "error",
+                                5000
+                            );
+                        },
+                        complete: () => {
+                            this.ocultarLoader();
+                        },
+                    });
+                })
+                .catch(() => {
+                    //Mandamos a llamar la funcion para mostrar la alerta
+                    this.verAlerta(
+                        "Eliminación cancelada",
+                        "El proceso de eliminación fue cancelado",
+                        "warning"
+                    );
+                    //Tambien llamamos al método para ver la alerta de la superior derecha de la pantalla
+                    //le pasamos el titulo, la descripcion, el tipo de alerta (success, error, info) y el tiempo que va a durar en 5000 = 5 segundos
+                    this.verAlertaSuperior("Error", "Error", "error", 5000);
+                });
+        } else {
+            //Si los datos estan vacíos
+            //Mandamos a llamar la funcion para mostrar la alerta
+            this.verAlerta(
+                "No existen registros seleccionados",
+                "Por favor seleccione los registros a eliminar",
+                "warning"
+            );
+        }
+    }
+
+    eliminacionRegistrosNoTable() {
+        if (Object.entries(this.getDatosPeticion.datos).length > 0) {
+            //Si los datos recibidos son mayores a 0
+            swal({
+                //Abrimos una alerta para confirmar la eliminación
+                title: "¿Estás seguro?",
+                text: "Al hacer esto se realizará la eliminación.",
+                type: "warning",
+                showCancelButton: true,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "No, cancelar",
+                cancelButtonColor: "#d50a0a",
+            })
+                .then((r) => {
+                    $.ajax({
+                        url: this.getUrlPeticion, //Le enviamos la url con el metodo get, esta url se la enviamos del otro js
+                        type: "POST", //Como vamos a insertar datos tiene que ser post
+                        //La informacion se la mandamos en forma de arreglo llamado Datos, este contiene los valores que le pasamos del otro js
+                        data: this.getDatosPeticion,
+                        headers: {
+                            //Tenemos que enviar el token de seguridad, este token tiene que estar en la cabecera de nuestro archivo blade.php
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                        beforeSend: () => {
+                            this.verLoader();
+                        },
+                        success: (response) => {
+                            //Es importante utilizar funciones flecha para tener un contexto globlal y no local
+                            if (response.status == "success") {
+                                //Si el atributo status de la respuesta del servidor es igual a success
+                                this.verAlerta(
+                                    //Mandamos a llamar la funcion para mostrar la alerta
+                                    response.titulo, //Le pasamos el titulo
+                                    response.mensaje, //Le pasamos el mensaje
+                                    response.status //Este campo es el tipo de alerta (success, error, info)
+                                );
+                                //Mandamos a llamar la funcion para mostrar la alerta
+                                this.verAlertaSuperior(
+                                    "Eliminación exitosa",
+                                    "Eliminación",
+                                    "success",
+                                    5000
+                                );
+                                location.reload();
+                            } else if ((response.status = "error")) {
+                                this.verAlerta(
+                                    //Mandamos a llamar la funcion para mostrar la alerta
+                                    response.titulo, //Le pasamos el titulo
+                                    response.mensaje, //Le pasamos el mensaje
+                                    response.status //Este campo es el tipo de alerta (success, error, info)
+                                );
+                                //Tambien llamamos al método para ver la alerta de la superior derecha de la pantalla
+                                //le pasamos el titulo, la descripcion, el tipo de alerta (success, error, info) y el tiempo que va a durar en 5000 = 5 segundos
+                                this.verAlertaSuperior(
+                                    "Error",
+                                    "Error",
+                                    "error",
+                                    5000
+                                );
+                                location.reload();
+                                                        }
                         },
                         error: (data) => {
                             //Mandamos a llamar la funcion para mostrar la alerta

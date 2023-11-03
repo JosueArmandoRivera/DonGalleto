@@ -21,7 +21,7 @@ $(document).ready(function () {
 
 $(document).on("click", "#btnNuevoUsuario", () => {     //Cuando se le da click al botón de nuevo ejemplo 
     objeto.resetearBotones();
-    objeto.verModal("Registrar Usuario");       //Llamamos al metodo de vermodal para visualizar el modal
+    objeto.verModal("Registrar Tipo de Pase");       //Llamamos al metodo de vermodal para visualizar el modal
     objeto.activarCamposFormulario();           //Activamos los campos ya que estarán bloqueados
     objeto.botonesAgregar();                    //Llamamos el método para activar solo los botones del modal para agregar
 });

@@ -53,7 +53,7 @@
                         {{-- Si el permiso es Insertar, que permita mostrarlo --}}
                         <!--Boton para agregar un nuevo registro-->
                         <x-adminlte-button label="Nuevo" id="btnNuevoUsuario" class="bg-green" icon="fa-solid fa-plus"
-                            title="Agregar un Usuario" />
+                            title="Agregar un Tipo de Pase" />
                     @endif
                 @endforeach
             </div>
@@ -84,9 +84,9 @@
        
                     <div class="d-flex">
                         <div class="d-block col-md-6" >                             
-                                <label for="idDocumentos">*Rol de Usuario</label>
+                                <label for="idDocumentos">*Selecciona los documentos a solicitar</label>
                                 <div class="input-group mb-2" >
-                                    <select name="idDocumentos" class="form-control" id="idDocumentos">
+                                    <select title="Selecciona los documentos que necesita presentar este tipo de pase" name="idDocumentos" class="form-control" id="idDocumentos">
                                             <option disabled selected value="">Selecciona los documentos solicitados</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>

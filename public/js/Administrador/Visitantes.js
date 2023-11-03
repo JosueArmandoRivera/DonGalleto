@@ -66,14 +66,6 @@ $(document).on("click", "#btnAgregar", function() {       //Cuando se le da clic
                 minlength:10,
                 required: true
             },
-            telefonoEmpresarial: {
-                minlength:10,
-                required: true
-            },
-            extensionTelefono: {
-                minlength: 1,
-                required: true
-            },
             email: {
                 required: true,
                 email: true                
@@ -173,14 +165,6 @@ $(document).on("click", "#btnEditarModal", () => { //Si se le da click al boton 
             },
             telefonoPersonal: {
                 minlength:10,
-                required: true
-            },
-            telefonoEmpresarial: {
-                minlength:3,
-                required: true
-            },
-            extensionTelefono: {
-                minlength: 1,
                 required: true
             },
             email: {

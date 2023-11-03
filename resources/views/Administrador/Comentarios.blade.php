@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Avisos')
+@section('title', 'Comentarios y Valoraciones')
 
 @section('content_header')
     {{-- <h1>Areas</h1> --}}
-    @include('Layouts.header', ['nombreModulo' => "Avisos y Documentación"])
+    @include('Layouts.header', ['nombreModulo' => "Comentarios y Valoraciones"])
     <meta name="csrf-token" content="{{ csrf_token()}}" />
     <style>
         .select2-container .select2-selection--single{
@@ -29,7 +29,7 @@
         $permisoPagina = false; // Valor predeterminado en caso de que no se cumpla ninguna condición
     @endphp
     @foreach (session('permisos') as $moduloID => $permisos)
-        @if ($moduloID == 6)
+        @if ($moduloID == 17)
             {{-- Debes colocar el id del modulo --}}
             @php
                 $permisoPagina = true; //Variable para saber si tiene permiso al modulo
@@ -67,15 +67,7 @@
                             id="titulo" type="text" fgroup-class="col-md-12 mb-2" disabled
                             disable-feedback />
                     </div>
-                    <div class="col-md-12 mb-0">
-                        <label for="idArea" class="col-form-label">*Area</label>
-                        <select name="idArea" id="idArea" class="form-control mb-2">
-                            <option disabled selected>Selecciona un area</option>
-                            @foreach ($area as $area)
-                            <option value="{{ $area->Id_Area }}">{{ $area->Nombre_Area}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+               
                     <div class="d-flex">
                         <div class="col-md-6 d-block mb-0 ">
                             {{--  <x-adminlte-input name="fechaInicio" label="*Fecha Inicio" placeholder=""
@@ -127,20 +119,19 @@
                 </form>
             </x-adminlte-modal>
                 
-            <div class="col-md-12 contenedor-Contenedores">
+            {{--  <div class="col-md-12 contenedor-Contenedores">
                 @foreach ($avisos as $avisos)
                     <div class="container">
                         {{--  <div class="delete-icon">
                             <i class="fas fa-times"></i> <!-- Icono "X" de eliminar -->
-                        </div>  --}}
+                        </div>  
                         <div class="document-details">
                         <h5>{{$avisos->Titulo}}</h5>
                         <div class="document-icon">
                             <i class="fa fa-file-text"></i> <!-- Reemplaza con la clase de tu icono -->
                         </div>
                         <p class="mb-4">{{$avisos->Contenido}}</p>
-                        {{--  <button class="view-button">Ver Más </button>  --}}
-                            
+                        
                     @foreach ($permisos as $permiso)               
                         @if ($permiso == 'Modificar')           
                             <button idAviso="{{$avisos->Id_Aviso}}" id="editarAviso" title="Modificar el aviso seleccionado" class="view-button"><i class="fa-solid fa-pen-to-square fa-lg"></i> Modificar </button>
@@ -155,7 +146,7 @@
                     </div>
                     </div>
                 @endforeach
-            </div>  
+            </div>    --}}
             
         @endif
     @endforeach
@@ -194,7 +185,7 @@
     <script src="js/Generales/Plugins/sweetalert/sweetalert2.js" charset="UTF-8"></script>
     <script src="js/Generales/Plugins/fontawesome-6.4.0/js/all.min.js" charset="UTF-8"></script>
     <script src="js/Generales/Validaciones/PeticionAjax.js"></script>
-    <script src="js/Administrador/Avisos.js"></script>
+    <script src="js/Administrador/Comentarios.js"></script>
     @if (Auth::user()->Primer_Cambio_Contrasena == '1')
         <script>
             $("#modalPrimerCambioContrasena").modal("show");

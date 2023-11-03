@@ -10,9 +10,11 @@ use App\Http\Controllers\Generales\PageErrorController;
 use App\Http\Controllers\Administrador\AvisosController;
 use App\Http\Controllers\Administrador\VisitasController;
 use App\Http\Controllers\Administrador\UsuariosController;
+use App\Http\Controllers\Administrador\RegistrosController;
 use App\Http\Controllers\Administrador\TiposPasesController;
 use App\Http\Controllers\Administrador\VisitantesController;
 use App\Http\Controllers\Generales\NotificacionesController;
+use App\Http\Controllers\Administrador\ComentariosController;
 use App\Http\Controllers\Administrador\PerfilAdministradorController;
 use App\Http\Controllers\Generales\ConfiguracionNotificacionesController;
 
@@ -161,9 +163,35 @@ Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
 */
 Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
   Route::GET('/avisos', [AvisosController::class, 'index'])->name('avisos.index');                             //Ruta para retornar la pantalla principal
-  Route::GET('/avisos/armarTabla', [VisitasController::class, 'armarTabla'])->name('avisos.armarTabla');        //Ruta para consultar y contruir la tabla
-  Route::POST('/avisos/store', [VisitasController::class, 'store'])->name('avisos.store');                      //Ruta para realizar un registro
-  Route::GET('/avisos/consultar', [VisitasController::class, 'show'])->name('avisos.show');                     //Ruta para consultar un registro
-  Route::POST('/avisos/modificar', [VisitasController::class, 'update'])->name('avisos.update');                //Ruta para actualizar un registro
-  Route::POST('/avisos/eliminar', [VisitasController::class, 'destroy'])->name('avisos.destroy');               //Ruta para eliminar un registro 
+  Route::GET('/avisos/armarTabla', [AvisosController::class, 'armarTabla'])->name('avisos.armarTabla');        //Ruta para consultar y contruir la tabla
+  Route::POST('/avisos/store', [AvisosController::class, 'store'])->name('avisos.store');                      //Ruta para realizar un registro
+  Route::GET('/avisos/consultar', [AvisosController::class, 'show'])->name('avisos.show');                     //Ruta para consultar un registro
+  Route::POST('/avisos/modificar', [AvisosController::class, 'update'])->name('avisos.update');                //Ruta para actualizar un registro
+  Route::POST('/avisos/eliminar', [AvisosController::class, 'destroy'])->name('avisos.destroy');               //Ruta para eliminar un registro 
+});
+//Rutas para módulo de Registros
+/* Creado por: Armando Rivera
+   Fecha de creación: 31/10/2023
+   Descripcion: rutas que redirigen al controlador de Visitas         
+*/
+Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
+  Route::GET('/registros', [RegistrosController::class, 'index'])->name('registros.index');                             //Ruta para retornar la pantalla principal
+  Route::GET('/registros/armarTabla', [RegistrosController::class, 'armarTabla'])->name('registros.armarTabla');        //Ruta para consultar y contruir la tabla
+  Route::POST('/registros/store', [RegistrosController::class, 'store'])->name('registros.store');                      //Ruta para realizar un registro
+  Route::GET('/registros/consultar', [RegistrosController::class, 'show'])->name('registros.show');                     //Ruta para consultar un registro
+  Route::POST('/registros/modificar', [RegistrosController::class, 'update'])->name('registros.update');                //Ruta para actualizar un registro
+  Route::POST('/registros/eliminar', [RegistrosController::class, 'destroy'])->name('registros.destroy');               //Ruta para eliminar un registro 
+});
+//Rutas para módulo de Registros
+/* Creado por: Armando Rivera
+   Fecha de creación: 02/11/2023
+   Descripcion: rutas que redirigen al controlador de Visitas         
+*/
+Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
+  Route::GET('/comentariosyvaloraciones', [ComentariosController::class, 'index'])->name('comentarios.index');                             //Ruta para retornar la pantalla principal
+  Route::GET('/comentariosyvaloraciones/armarTabla', [ComentariosController::class, 'armarTabla'])->name('registros.armarTabla');        //Ruta para consultar y contruir la tabla
+  Route::POST('/comentariosyvaloraciones/store', [ComentariosController::class, 'store'])->name('registros.store');                      //Ruta para realizar un registro
+  Route::GET('/comentariosyvaloraciones/consultar', [ComentariosController::class, 'show'])->name('registros.show');                     //Ruta para consultar un registro
+  Route::POST('/comentariosyvaloraciones/modificar', [ComentariosController::class, 'update'])->name('registros.update');                //Ruta para actualizar un registro
+  Route::POST('/comentariosyvaloraciones/eliminar', [ComentariosController::class, 'destroy'])->name('registros.destroy');               //Ruta para eliminar un registro 
 });

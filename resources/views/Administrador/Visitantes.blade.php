@@ -86,7 +86,6 @@
                                 </div>
                                 <i class="fas fa-plus green-icon"></i> <!-- Icono de suma -->  
                             </label>
-                              
                         </div>
                     </div>
 

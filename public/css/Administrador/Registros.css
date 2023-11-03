@@ -1,0 +1,38 @@
+.photo-upload {
+    text-align: center;
+}
+.photo-circle:hover {
+    cursor: pointer; /* Cambia el cursor a una mano al hacer hover */
+    background-color: #eee; /* Cambia el color de fondo a verde al hacer hover */
+    border-color: #000; /* Cambia el color del borde a negro al hacer hover */
+}
+
+.photo-circle:hover i {
+    color: #fff; /* Cambia el color del ícono a blanco al hacer hover */
+}
+
+.photo-circle {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: transparent; /* Fondo transparente */
+    border: 2px solid black; /* Borde negro */
+    border-radius: 50%;
+    text-align: center;
+    position: relative; /* Necesario para el posicionamiento absoluto del icono "+" */
+}
+
+.photo-circle i {
+    font-size: 72px;
+    color: black; /* Color negro para el icono de la cámara */
+}
+
+.green-icon {
+    font-size: 36px;
+    color: green; /* Establecer el color verde para el icono de suma */
+    display: block; /* Asegura que el icono de suma esté en una nueva línea */
+}
+
+.photo-circle input {
+    display: none;
+}
