@@ -52,7 +52,7 @@
                     @if ($permiso == 'Insertar')
                         {{-- Si el permiso es Insertar, que permita mostrarlo --}}
                         <!--Boton para agregar un nuevo registro-->
-                        <x-adminlte-button label="Nuevo" id="btnNuevoUsuario" class="bg-green" icon="fa-solid fa-plus"
+                        <x-adminlte-button label="Nuevo" id="btnNuevo" class="bg-green" icon="fa-solid fa-plus"
                             title="Agregar un Tipo de Pase" />
                     @endif
                 @endforeach
@@ -83,22 +83,25 @@
                     disable-feedback />
        
                     <div class="d-flex">
-                        <div class="d-block col-md-6" >                             
-                                <label for="idDocumentos">*Selecciona los documentos a solicitar</label>
-                                <div class="input-group mb-2" >
-                                    <select title="Selecciona los documentos que necesita presentar este tipo de pase" name="idDocumentos" class="form-control" id="idDocumentos">
-                                            <option disabled selected value="">Selecciona los documentos solicitados</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                       
+                        {{--  <div id="divLista">      
+                            <ul id="listaDocumentos"></ul>
+                        </div>  --}}
+                        <ul id="listaDocumentos"></ul>
+
+                        <div class="d-block col-md-6 divDocs" >                             
+                                <label class="divDocs" for="idDocumentos">*Selecciona los documentos a solicitar</label>
+                                <div class="input-group mb-2 divDocs" >
+                                    <select title="Selecciona los documentos que necesita presentar este tipo de pase" name="idDocumentos" class="form-control" id="idDocumentos" multiple>
+                                      
                                         @foreach ($rol as $rol)
-                                            <option value="{{ $rol->Id_Rol }}">{{ $rol->Nombre}}</option>
+                                            <option value="{{ $rol->Id_Documento }}">{{ $rol->Nombre_Doc}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                            <a href="" style="text-decoration: underline;">Registra un nuevo Documento </a>                       
-                            
+                            <a class="divDocs" href="" style="text-decoration: underline;">Registra un nuevo Documento </a>                                               
                         </div>
+                        
+
                         <div class="d-block col-md-6">                           
                             <label for="usarUnaVez">Válido sólo una vez</label>
                             <div class="form-group">
@@ -109,21 +112,19 @@
                             </div> 
                         </div>
                     </div>
-                    <div class="d-block col-md-12">
+                    {{--  <div class="d-block col-md-12">
                         <label for="descripcion">Descripción del Tipo de Pase</label>
                         <div>
                             <textarea name="descripcion" id="descripcion" style="width: 100%; height: 150px; resize: none;"></textarea>
                         </div>
 
                     </div>
-                 
+                   --}}
                     <div class="col-md-12">
 
                         <p class="font-italic my-2">Los campos marcados con * son obligatorios</p>
                     </div>    
-              
                    
-                             
                    
                     <x-slot name="footerSlot">
                         <x-adminlte-button theme="danger" class="ml-auto" label="Cerrar" id="btnCerrarModal" icon="fa-regular fa-circle-xmark fa-lg"/>
@@ -159,9 +160,10 @@
     <link rel="stylesheet" href="css/Administrador/TiposPases.css">
 
     {{--  <link href="https://unpkg.com/bootstrap@3.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>--}}
-    <link href="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/css/bootstrap-multiselect.css" rel="stylesheet"/>    
+    {{--  <link href="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/css/bootstrap-multiselect.css" rel="stylesheet"/>      --}}
 
-@stop<link rel="stylesheet" href="{{ asset('css/bootstrap-multiselect.css') }}" type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/css/bootstrap-multiselect.css">
+    @stop
 
 @section('js')
     {{-- <script src="js/Generales/Plugins/jquery/jquery-3.7.0.js"></script> --}}
@@ -175,7 +177,9 @@
     <script src="js/Generales/Validaciones/PeticionAjax.js"></script>
     <script src="js/Administrador/TiposPases.js"></script>
 
-    <script src="{{ asset('js/bootstrap-multiselect.js') }}"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/css/bootstrap-multiselect.css">
+    {{--  <script src="{{ asset('js/bootstrap-multiselect.js') }}"></script>  --}}
     {{--  <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>  --}}
     {{--  <script src="https://unpkg.com/bootstrap@3.3.2/dist/js/bootstrap.min.js"></script>  --}}
     <script src="https://unpkg.com/bootstrap-multiselect@0.9.13/dist/js/bootstrap-multiselect.js"></script> 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrador;
 
 use Exception;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -69,7 +70,8 @@ class VisitantesController extends Controller
                                         </td>";
                                      }
                                 
-        $tabla .=                      '<td width="20%">Nombre Visitantes</td>
+        $tabla .=                      '<td width="10%">Fotografía</td>
+                                        <td width="20%">Nombre Visitantes</td>
                                         <td width="15%">Teléfono Personal</td>
                                         <td width="15%">Whats App</td>
                                         <td width="15%">E-mail</td>';
@@ -112,6 +114,16 @@ class VisitantesController extends Controller
                                     // } else if ($usuarios->Disponible == '0') {
                                     //     $tabla .= '<td title="Disponible"> <i class="fa-solid fa-circle" style="color: #ff0000;"></i> No disponible</td>';
                                     // }
+                                    $tabla .= '<td title="' . $usuarios->fotografia . '" class="align-middle text-center d-flex justify-content-center">';
+                                    if ($usuarios->fotografia) {
+                                        $tabla .= '<div style="width: 50px; height: 50px; border-radius: 100%; overflow: hidden;">
+                                                        <img style="width: 100%;height: 100%; object-fit: cover;" src="' . asset('storage/' . $usuarios->fotografia) . '">
+                                                   </div>';
+                                    } else {
+                                        $tabla .= '<div style="width: 50px; height: 50px; ">
+                                                        <i class="fa-solid fa-image fa-2xl" style="width: 100%;height: 100%;"></i>
+                                                   </div>';
+                                    }
                                       $tabla .='<td title="' . $usuarios->Nombres . '">' . $usuarios->Nombres . '<br>' . $usuarios->Apellido_Paterno . '<br>' . $usuarios->Apellido_Materno . '</td>
                                                 <td title="' . $usuarios->Telefono_Personal . '">' . $usuarios->Telefono_Personal . '</td>
                                                 <td title="' . $usuarios->WhatsApp . '">' . $usuarios->WhatsApp . '</td>
@@ -180,8 +192,17 @@ class VisitantesController extends Controller
             $Usuarios->Extension_Telefono = $request->extensionTelefono;
             $Usuarios->WhatsApp = $request->whatsApp;
             $Usuarios->Email = $request->email;
+            $Usuarios->fotografia='';
+            if ($request->hasFile('Logotipo')) {   //Validamos si el campo logotipo es de tipo file
+                $Logotipo = $request->file('Logotipo');    //Guardamos el archivo en una variables
+                $nombreOriginal = $Logotipo->getClientOriginalName(); // Obtenemos el nombre original del documento
+                $fechaActual = Carbon::now()->format('Ymd_His'); // Obtenemos la fecha actual en formato año-mes-día_hora-minuto-segundo
+                $nombreConFecha = $fechaActual . '_' . $nombreOriginal;
+                $path = $Logotipo->storeAs('fotografiaVisitantes', $nombreConFecha, 'public');   //Con la función store guardamos el archivo en la carpeta LogotipoMarcas, esa carpeta esta dentro del public que tiene el storage
+                $Usuarios->fotografia = $path;   //Para realizar una insercion a la BD guardamos el path en una variables
+            }
             $submit = DB::select(
-                'EXEC SP_Visitantes_Insertar ?,?,?,?,?,?,?,?,?', //El valor 1 corresponde al usuario que hace la acción, por mientras es 1 xD, y el valor 2 es el módulo
+                'EXEC SP_Visitantes_Insertar ?,?,?,?,?,?,?,?,?,?', //El valor 1 corresponde al usuario que hace la acción, por mientras es 1 xD, y el valor 2 es el módulo
                 [
                     $Usuarios->Nombres,
                     $Usuarios->Apellido_Paterno,
@@ -191,11 +212,12 @@ class VisitantesController extends Controller
                     $Usuarios->Extension_Telefono,
                     $Usuarios->WhatsApp,
                     $Usuarios->Email,
-                    Auth::user()->Id_Usuario
+                    Auth::user()->Id_Usuario,
+                    $Usuarios->fotografia 
                 ]
             );
            // dd($submit);
-            if (isset($submit[0]->respuesta) && $submit[0]->respuesta == 'Consulta Exitosa') {
+            if ($submit[0]->respuesta == 'Consulta Exitosa') {
                 //Recuperamos el nombre, el correo y la contraseña del administrador para mandarle un email
                 //$nombre_completo = $submit[0]->Nombre_Completo;
                 //$email = $submit[0]->Email;

@@ -109,9 +109,13 @@
                                 <div class="input-group">
                                     <select name="usuarios" class="form-control" id="usuarios"disabled>
                                         <option disabled selected value="">Selecciona un motivo</option>
-                                        <option value="">Selecciona un usuario</option>
-                                        <option value="">Selecciona un usuario</option>
-                                        <option value="">Selecciona un usuario</option>
+                                        <option value="">Personal</option>
+                                        <option value="">Servicio mantenimiento</option>
+                                        <option value="">Reunión</option>
+                                        <option value="">Delivery</option>
+                                        <option value="">Servicio taxi</option>
+                                        <option value="">Entrega paqueteria</option>
+                                        <option value="">Otro</option>
                                     </select>
                                 </div>
                             </div>
@@ -176,7 +180,7 @@
                         </div> 
                    
                         <div class="d-block col-md-12">
-                            <label for="descripcion">Descripción del la visita</label>
+                            <label for="descripcion">Comentario</label>
                             <div>
                                 <textarea name="descripcion" id="descripcion" style="width: 100%; height: 110px; resize: none;"></textarea>
                             </div>
@@ -186,62 +190,62 @@
                             <table id="tabla-dias" class="table table-hoverdisplay table-striped table-hover no-wrap">
                                 <thead  class="bg-dark">
                                   <tr>
-                                    <th><input type="checkbox"></th>
+                                    <th><input id="checkTodosDias" type="checkbox"></th>
                                     <th>Días</th>
                                     <th>Hora Inicio</th>
                                     <th>Hora Fin</th>
-                                    <th><input type="checkbox"> Sin Límite</th>
+                                    <th><input id="checkTodasHoras" type="checkbox"> Sin Límite</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td><input type="checkboxL"></td>
+                                    <td><input class="checkboxDia" type="checkbox" id="checkboxL"></td>
                                     <td>Lunes</td>
-                                    <td><input type="time" id="horaIL" name="hora"></td>
-                                    <td><input type="time" id="horaFL" name="hora"></td>
-                                    <td><input type="checkbox"></td>
+                                    <td><input class="inputHorasInicio" type="time" id="horaIL" name="hora"></td>
+                                    <td><input class="inputHorasFin" type="time" id="horaFL" name="hora"></td>
+                                    <td><input class="checkboxHora" type="checkbox"></td>
                                   </tr>
                                   <tr>
-                                    <td><input type="checkboxMar"></td>
+                                    <td><input class="checkboxDia" type="checkbox" id="checkboxMar"></td>
                                     <td>Martes</td>
-                                    <td><input type="time" id="horaIMar" name="hora"></td>
-                                    <td><input type="time" id="horaFMar" name="hora"></td>
-                                    <td><input type="checkbox"></td>
+                                    <td><input class="inputHorasInicio" type="time" id="horaIMar" name="hora"></td>
+                                    <td><input class="inputHorasFin" type="time" id="horaFMar" name="hora"></td>
+                                    <td><input class="checkboxHora" type="checkbox"></td>
                                   </tr>
                                   <tr>
-                                    <td><input type="checkboxMi"></td>
+                                    <td><input class="checkboxDia"  type="checkbox" id="checkboxMi"></td>
                                     <td>Miércoles</td>
-                                    <td><input type="time" id="horaIMi" name="hora"></td>
-                                    <td><input type="time" id="horaFMi" name="hora"></td>
-                                    <td><input type="checkbox"></td>
+                                    <td><input class="inputHorasInicio" type="time" id="horaIMi" name="hora"></td>
+                                    <td><input class="inputHorasFin" type="time" id="horaFMi" name="hora"></td>
+                                    <td><input class="checkboxHora" type="checkbox"></td>
                                   </tr>
                                   <tr>
-                                    <td><input type="checkboxJ"></td>
+                                    <td><input class="checkboxDia" type="checkbox" id="checkboxJ"></td>
                                     <td>Jueves</td>
-                                    <td><input type="time" id="horaIJ" name="hora"></td>
-                                    <td><input type="time" id="horaFJ" name="hora"></td>
-                                    <td><input type="checkbox"></td>
+                                    <td><input class="inputHorasInicio" type="time" id="horaIJ" name="hora"></td>
+                                    <td><input class="inputHorasFin" type="time" id="horaFJ" name="hora"></td>
+                                    <td><input class="checkboxHora" type="checkbox"></td>
                                   </tr>
                                   <tr>
-                                    <td><input type="checkboxV"></td>
+                                    <td><input class="checkboxDia" type="checkbox" id="checkboxV"></td>
                                     <td>Viernes</td>
-                                    <td><input type="time" id="horaIV" name="hora"></td>
-                                    <td><input type="time" id="horaFV" name="hora"></td>
-                                    <td><input type="checkbox"></td>
+                                    <td><input class="inputHorasInicio" type="time" id="horaIV" name="hora"></td>
+                                    <td><input class="inputHorasFin" type="time" id="horaFV" name="hora"></td>
+                                    <td><input class="checkboxHora" type="checkbox"></td>
                                   </tr>
                                   <tr>
-                                    <td><input type="checkboxS"></td>
+                                    <td><input class="checkboxDia" type="checkbox" id="checkboxS"></td>
                                     <td>Sábado</td>
-                                    <td><input type="time" id="horaIS" name="hora"></td>
-                                    <td><input type="time" id="horaFS" name="hora"></td>
-                                    <td><input type="checkbox"></td>
+                                    <td><input class="inputHorasInicio" type="time" id="horaIS" name="hora"></td>
+                                    <td><input class="inputHorasFin" type="time" id="horaFS" name="hora"></td>
+                                    <td><input class="checkboxHora" type="checkbox"></td>
                                   </tr>
                                   <tr>
-                                    <td><input type="checkboxD"></td>
+                                    <td><input class="checkboxDia" type="checkbox" id="checkboxD"></td>
                                     <td>Domingo</td>
-                                    <td><input type="time" id="horaID" name="hora"></td>
-                                    <td><input type="time" id="horaFD" name="hora"></td>
-                                    <td><input type="checkbox"></td>
+                                    <td><input class="inputHorasInicio" type="time" id="horaID" name="hora"></td>
+                                    <td><input class="inputHorasFin" type="time" id="horaFD" name="hora"></td>
+                                    <td><input class="checkboxHora" type="checkbox"></td>
                                   </tr>
                                 </tbody>
                               </table>

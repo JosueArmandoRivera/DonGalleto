@@ -168,7 +168,14 @@ Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
   Route::GET('/avisos/consultar', [AvisosController::class, 'show'])->name('avisos.show');                     //Ruta para consultar un registro
   Route::POST('/avisos/modificar', [AvisosController::class, 'update'])->name('avisos.update');                //Ruta para actualizar un registro
   Route::POST('/avisos/eliminar', [AvisosController::class, 'destroy'])->name('avisos.destroy');               //Ruta para eliminar un registro 
+  Route::POST('/avisos/subir-doc', [AvisosController::class, 'subir_doc'])->name('avisos.subir-doc');                   //Ruta para realizar un registro
+  Route::POST('/avisos/store-doc', [AvisosController::class, 'store_doc'])->name('avisos.store-doc');                   //Ruta para realizar un registro
+  Route::GET('/avisos/existe-doc', [AvisosController::class, 'existe_doc'])->name('avisos.existe-doc');                  //Ruta para consultar un registro
+  Route::GET('/avisos/verDocumentos', [AvisosController::class, 'verDocumentos'])->name('avisos.verDocumentos');                  //Ruta para consultar un registro
+  Route::POST('/avisos/eliminar-doc', [AvisosController::class, 'destroy_doc'])->name('avisos.eliminar-doc');                  //Ruta para consultar un registro  
 });
+Route::GET('/avisos/descargar-doc/{direccion}', [AvisosController::class, 'descargar_doc'])->name('avisos.descargar-doc');                  //Ruta para consultar un registro
+
 //Rutas para módulo de Registros
 /* Creado por: Armando Rivera
    Fecha de creación: 31/10/2023

@@ -219,7 +219,7 @@ class Peticion {
                         5000
                     );
                      // Recarga la página después de mostrar la alerta
-                    location.reload();
+                    //location.reload();
                 } else if ((response.status = "error")) {
                     //Si el atributo status del json recibido del SERVIDOR el cual nosotros retornamos, es igual a error
                     this.verAlerta(
@@ -694,7 +694,7 @@ class Peticion {
                                     "error",
                                     5000
                                 );
-                                location.reload();
+                               // location.reload();
                                                         }
                         },
                         error: (data) => {

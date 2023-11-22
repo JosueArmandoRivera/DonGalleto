@@ -8,6 +8,10 @@
 let modal = document.getElementById("modalVistantes");         //Guardamos el modal que utilizaremos en una variables
 let formulario = document.getElementById("formularioVisitantes");   //Guardamos en una variable el formulario a utilzar
 let objeto = new Peticion("/visitantes/armarTabla", modal, btnModal, formulario);     //Creamos el objeto de tipo peticion y le mandamos las variables ya creadas
+//Este apartado esta destinado a la manipulacion del input donde estan las imagenes
+const imagenInput = document.getElementById("Logotipo"); //En una variable guardamos el elemento del input
+const imagenPrevisualizacion = document.getElementById("previsualizacion"); //En una variable guardamos el elemento img donde se hará la previsualización de la imagen
+const hover = document.getElementById("overlay"); //El overlay es el efecto del hover
 
 $(document).ready(function () {
     objeto.consultarTabla();    //Cuando el documento este listo mandamos a llamar al metodo de consultar tabla para poder inicializarla
@@ -32,6 +36,16 @@ $('#modalUsuarios').on('hide.bs.modal', function (e) {        //Esta funcion val
 });
 $(document).on("click", "#btnCambiarContrasena", function (e) {
     objeto.primerCambioContrasena();
+});
+
+//Esta funcion se ejecuta cuando el modal se cierra
+$("#modalVistantes").on("hide.bs.modal", function (e) {
+    setTimeout(() => {
+        objeto.resetearBotones();             //Reseteamos todo el formulario
+        imagenPrevisualizacion.src = "";      //El img donde se previsualiza la imagen lo limpiamos
+        $(hover).removeClass("d-none");       //En caso de que se haya ocultado el overlay pues le removemos
+        $("#noImagen").removeClass("d-none"); //De igual forma si se oculto el recuadro donde dice que no hay imagen pues le quitamos la clase
+    }, 300);
 });
 
 $(document).on("click", "#btnAgregar", function() {       //Cuando se le da click al boton de agregar
@@ -72,6 +86,20 @@ $(document).on("click", "#btnAgregar", function() {       //Cuando se le da clic
             },
             whatsApp: {
                 required: true
+            },
+            Logotipo:{
+
+            }
+        },
+        invalidHandler: function (form, validator) {
+            //Esta funcion sirve solamente para mostrar los errores de la imagen
+            let errors = validator.errorList;
+            for (let i = 0; i < errors.length; i++) {
+                let error = errors[i];
+                if (error.element.name === "Logotipo") {
+                    toastr.error("" + error.message, "Error", "error");
+                    break;
+                }
             }
         },
         //Si todas las reglas se cumplen se comienza con el envio del formulario
@@ -107,8 +135,12 @@ $(document).on("click", "#verVisitante", function() {//Si se le da click al boto
         $("#extensionTelefono").val(e.datos[0].Extension_Telefono);          
         $("#email").val(e.datos[0].Email);                  
         $("#whatsApp").val(e.datos[0].WhatsApp);          
-    
-        objeto.verModal("Detalles Usuarios");    //Llamamos al metodo de ver ejemplo y le pasamos el titulo del modal
+        if (e.datos[0].fotografia != '') {
+            //Aqui se valida si el registro de imagen es diferente de vacio
+            imagenPrevisualizacion.src = "storage/" + e.datos[0].fotografia; //Al elemento img en el src se la agrega la ruta donde esta alojada la imagen
+            $("#noImagen").addClass("d-none"); //Y ocultamos el recuadro que dice no imagen
+        }
+        objeto.verModal("Detalles Visitantes");    //Llamamos al metodo de ver ejemplo y le pasamos el titulo del modal
     }); 
 });
 $(document).on("click", "#editarVisitante",function(){    //Si se le da click al boton de editar ejemplo en la tabla
@@ -131,7 +163,12 @@ $(document).on("click", "#editarVisitante",function(){    //Si se le da click al
     $("#telefonoEmpresarial").val(e.datos[0].Telefono_Empresarial);          
     $("#extensionTelefono").val(e.datos[0].Extension_Telefono);          
     $("#email").val(e.datos[0].Email);                 
-    $("#whatsApp").val(e.datos[0].WhatsApp);          
+    $("#whatsApp").val(e.datos[0].WhatsApp);   
+    if (e.datos[0].fotografia != '') {
+        //Aqui se valida si el registro de imagen es diferente de vacio
+        imagenPrevisualizacion.src = "storage/" + e.datos[0].fotografia; //Al elemento img en el src se la agrega la ruta donde esta alojada la imagen
+        $("#noImagen").addClass("d-none"); //Y ocultamos el recuadro que dice no imagen
+    }       
      objeto.verModal("Editar Visitante");                  //Llamamos al metodo de ver ejemplo y le pasamos el titulo del modal
     });   
 });
@@ -186,6 +223,18 @@ $(document).on("click", "#btnEditarModal", () => { //Si se le da click al boton 
     });
 });
 
+//Funcion para el validate de tipo size, esto se hizo asi porque la validacion de tipo maxfilesize no esta para colocarla en a funcion general
+$.validator.addMethod(
+    "maxFileSize",
+    function (value, element, param) {
+        if (element.files.length > 0) {
+            let fileSize = element.files[0].size; // Tamaño del archivo en bytes
+            return fileSize <= param;
+        }
+        return true;
+    },
+    "El tamaño del archivo debe ser menor o igual a 5MB."
+);
 $(document).on("click", "#eliminarVisitante", function(){//Si se le da click al boton de eliminar en la tabla  
     let arrayElementos = [];                    //Creamos un arreglo
     arrayElementos.push($(this).attr('idPersona'));    //El id del boton lo metemos al arreglo   
@@ -214,5 +263,38 @@ $(document).on("change", "#chTodosP", function(){
     }else{
         console.log("no esta checkeado");
         dataTable.$(".eliminarMasivo_checkbox").prop("checked", false);
+    }
+});
+//Cuando se le de click al overlay (el que da efecto de hover en la imagen), es como si se le dira click al input para que se abra el explorador de archivos
+$(document).on("click", "#overlay", function () {
+    document.getElementById("Logotipo").click();
+});
+imagenInput.addEventListener("change", function (e) {
+    // Obtén el archivo seleccionado
+    const archivo = e.target.files[0];
+
+    // Verifica si se seleccionó un archivo
+    if (archivo) {
+        // Crea un objeto FileReader
+        const lector = new FileReader();
+
+        // Configura el evento 'load' cuando se haya cargado el archivo
+        lector.addEventListener("load", function () {
+            // Asigna la URL de la imagen cargada al atributo src del elemento de previsualización
+            if (archivo && archivo.type.startsWith("image/")) {
+                // Es una imagen, realizar acciones adicionales
+                imagenPrevisualizacion.src = lector.result; //En el elemento de previsualizacion cargamos la imagen para que el usuario la vea
+                $("#noImagen").addClass("d-none"); //El elemento que dice no imagen lo ocultamos porque sino tapa la imagen
+            } else {
+                //En caso de que el archivo cargado no sea una imagen
+                toastr.error(
+                    "El archivo seleccionado no es una imagen",
+                    "Error"
+                ); //Le avisamos al usuario que no inserto un archivo correcto
+                imagenInput.value = ""; //Limpiamos el file para que no se le bloquee el formulario
+            }
+        });
+
+        lector.readAsDataURL(archivo);
     }
 });

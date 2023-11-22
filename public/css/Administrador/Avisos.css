@@ -15,7 +15,7 @@
     /* margin: 10px; */
    
     width: 100%; /* Ocupa todo el ancho disponible en dispositivos más pequeños */
-    max-width: calc(50% - 20px); /* Limita el ancho en dispositivos más grandes para mostrar 3 elementos por fila */
+    max-width: calc(100% - 20px); /* Limita el ancho en dispositivos más grandes para mostrar 3 elementos por fila */
     margin-bottom: 10px;    
     background-color: white;
   }
@@ -93,3 +93,18 @@
 .icon {
     margin-right: 5px;
 }
+.eliminar-doc{
+  color:black; 
+  top:7px; 
+  right:7px;
+}
+
+.eliminar-doc:hover{
+  color:red; 
+  cursor: pointer;
+}
+
+.custom-file-label::after {
+  content: "Seleccionar" !important; }
+  
+/* .content-header{

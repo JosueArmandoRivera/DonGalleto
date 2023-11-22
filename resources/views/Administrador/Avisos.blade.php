@@ -87,11 +87,16 @@
                             {{--  </div>  --}}
                         </div>
                         <div class="col-md-6 d-block">
-                            <div>
+                            <div class="fechaFin">
                                 <x-adminlte-input name="fechaFin" label="*Fecha Fin" placeholder=""
                                     id="fechaFin" type="date" fgroup-class="mb-2" disabled
                                     disable-feedback />
-                            </div>           
+                            </div> 
+                            <div class="fechaFinArtificial">
+                                <x-adminlte-input name="fechaFinArtificial"  label="*Fecha Fin" placeholder=""
+                                        id="fechaFinArtificial" type="text" fgroup-class="mb-2" disabled
+                                        disable-feedback />
+                            </div>             
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                    <input type="checkbox" class="custom-control-input" id="ckeckboxFecha">
@@ -100,11 +105,16 @@
                             </div> 
                         </div>
                     </div>
+                    <div class="card p-3 archivos">
+                        <div id="contenedor-archivos" class="row justify-content-center">
+        
+                        </div>
+                    </div>
                     <div class="file-upload-container">
                         <label for="documentoInput" class="file-label">
-                            <i class="fas fa-cloud-upload-alt icon"></i> Subir Documento
+                            <i class="fas fa-folder-open icon"></i> Subir Documento
                         </label>
-                        <input type="file" id="documentoInput" class="file-input" accept=".pdf, .doc, .docx">
+                        <input type="file" id="documentoInput" class="file-input">
                     </div>
                 
                     <div class="d-block col-md-12">
@@ -128,32 +138,64 @@
             </x-adminlte-modal>
                 
             <div class="col-md-12 contenedor-Contenedores">
+                @php
+                    $contador = 0;
+                @endphp
                 @foreach ($avisos as $avisos)
                     <div class="container">
-                        {{--  <div class="delete-icon">
-                            <i class="fas fa-times"></i> <!-- Icono "X" de eliminar -->
-                        </div>  --}}
-                        <div class="document-details">
-                        <h5>{{$avisos->Titulo}}</h5>
-                        <div class="document-icon">
-                            <i class="fa fa-file-text"></i> <!-- Reemplaza con la clase de tu icono -->
-                        </div>
-                        <p class="mb-4">{{$avisos->Contenido}}</p>
-                        {{--  <button class="view-button">Ver Más </button>  --}}
+                            {{--  <div class="delete-icon">
+                                <i class="fas fa-times"></i> <!-- Icono "X" de eliminar -->
+                            </div>  --}}
+                            <div class="document-details">
+                            <h5><strong>{{$avisos->Titulo}}</strong></h5>
+                            {{--  <div class="document-icon">
+                                <i class="fa fa-file-text"></i> <!-- Reemplaza con la clase de tu icono -->
+                            </div>  --}}
+                          
+                            <p class="mb-4">{{$avisos->Contenido}}</p>
+                            @if(count($avisos->documentos) > 0)
+                            <div class="position-relative text-center rounded border py-4 px-2 m-1 d-flex" style="width: auto;">
+                                @foreach ($avisos->documentos as $documento)
+                                    <div class="position-relative text-center rounded border py-4 px-2 m-1" style="width: 100px;">
+                                        <a class="eliminarDoc" Id_Doc="{{ $documento->Id_Documento_Aviso }}" Dir_Doc="{{ $documento->Ruta }}" href="#">
+                                            <i class="fas fa-times position-absolute eliminar-doc"></i>
+                                        </a>
+                                        <a id="descargarDoc{{ $contador }}" Dir_Doc="{{ $documento->Ruta }}" href="">
+                                            <i class="fa fa-lg fa-fw fa-file" style="font-size: 33px; z-index: -1;"></i>
+                                            <i class="fas fa-cloud-download position-absolute" style="top: 30; left: 38; font-size: 17px; color: white;"></i>
+                                            <p class="text-truncate m-0" title="{{ $documento->Nombre_Documento }}">{{ $documento->Nombre_Documento }}</p>
+                                        </a>
+                                    </div>
+                                @endforeach
+                                </div>
                             
-                    @foreach ($permisos as $permiso)               
-                        @if ($permiso == 'Modificar')           
-                            <button idAviso="{{$avisos->Id_Aviso}}" id="editarAviso" title="Modificar el aviso seleccionado" class="view-button"><i class="fa-solid fa-pen-to-square fa-lg"></i> Modificar </button>
-                                                        
-                        @endif
-                        @if ($permiso == 'Eliminar')
-                            <x-adminlte-button  idAviso="{{$avisos->Id_Aviso}}" label="Eliminar" id="eliminarAviso" class="bg-danger"
-                            title="Eliminar el elemento seleccionado" icon="fa-solid fa-trash-can" /> 
-                        @endif
-                    @endforeach
+                                
+                            @endif
+                          
 
+
+                            <div class="card p-3 archivos" >
+                                <div id="contenedor-archivos" class="row justify-content-center">
+                
+                                </div>
+                            </div>
+                        @foreach ($permisos as $permiso)               
+                            @if ($permiso == 'Modificar')           
+                                <button idAviso="{{$avisos->Id_Aviso}}" id="editarAviso" title="Modificar el aviso seleccionado" class="view-button"><i class="fa-solid fa-pen-to-square fa-lg"></i> Modificar </button>
+                                                            
+                            @endif
+                            @if ($permiso == 'Eliminar')
+                                <x-adminlte-button  idAviso="{{$avisos->Id_Aviso}}" label="Eliminar" id="eliminarAviso" class="bg-danger"
+                                title="Eliminar el elemento seleccionado" icon="fa-solid fa-trash-can" /> 
+                            @endif
+                        @endforeach
+
+                        </div>
+                        @php
+                            $contador++;
+                        @endphp
                     </div>
-                    </div>
+
                 @endforeach
             </div>  
             

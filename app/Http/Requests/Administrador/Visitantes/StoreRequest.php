@@ -18,7 +18,7 @@ class StoreRequest extends FormRequest
             //El atributo nombre del objeto datos tiene las validaciones que es requerido y tiene una expresion regular que le prohibe algunos caracteres
             "nombres" => "required|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s.ñ.Ñ]{1,250}$/u",
             //El atributo apellido_paterno del objeto datos tiene las validaciones que es requerido y tiene una expresion regular que le prohibe algunos caracteres
-            "apellidoPaterno" => "required|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s.ñ.Ñ]{1,250}$/u",
+            "apellidoPaterno"=> "required|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s.ñ.Ñ]{1,250}$/u",
             //El atributo apellido_materno del objeto datos tiene las validaciones que es requerido y tiene una expresion regular que le prohibe algunos caracteres
             "apellidoMaterno"=> "required|regex:/^[a-zA-ZáéíóúÁÉÍÓÚüÜ\s.ñ.Ñ]{1,250}$/u",
             //El atributo telefono_personal del objeto datos tiene las validaciones que es requerido y tiene una expresión regular que especifica el formato de 3 dígitos espacio 2 dígitos espacio
@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
             //El atributo telefono_empresarial del objeto datos tiene las validaciones que es requerido y tiene una expresión regular que especifica el formato de 3 dígitos espacio 2 dígitos espacio
             "telefonoEmpresarial" => "nullable|numeric",
             //El atributo extension_telefono del objeto datos tiene las validaciones que es requerido y tiene una expresión regular que especifica 
-            "extensionTelefono" => "nullable|numeric|digits:1",
+            "extensionTelefono" => "nullable|numeric",
             //El atributo Email del objeto datos tiene las validaciones que es requerido y tiene una expresión regutal que especifíca que debe tener el formato común de un email. Por ejemplo: alguien@example.com
             "email" => "required|email",
             //El atributo Id_Rol del objeto Id_Rol tiene las validaciones que es requerido y tiene una expresión regular que dice que solo permite números enteros

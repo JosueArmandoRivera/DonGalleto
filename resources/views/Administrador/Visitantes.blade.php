@@ -77,42 +77,41 @@
                             id="idPersona" type="text" fgroup-class="col-md-12 mb-2" disabled
                             disable-feedback />
                     </div>
-                    <div class="d-block col-md-12 mb-4">
-                        <div class="photo-upload">
-                            <label for="photo" class="photo-circle">
-                                <div class="d-block">
-                                    <i class="fas fa-camera camara"></i>
-                                    <input type="file" id="photo" accept="image/*" />
-                                </div>
-                                <i class="fas fa-plus green-icon"></i> <!-- Icono de suma -->  
-                            </label>
+                    
+                    <div class="d-block mb-12" id="img">
+                        <div class="p-0 m-0 col-md-6" id="contenedor">
+                            <div class="col-12" id="noImagen"><i class="fas fa-camera"></i>Sin imagen</div>
+                            <img class="col-12 p-0 m-0" id="previsualizacion" src="" alt="Sin Imagen">
+                            <div class="col-12 text-white" id="overlay"><i class="fas fa-camera"></i>Subir imagen</div>
+                        </div>
+
+                        <div class="d-none">
+                            <x-adminlte-input-file name="Logotipo" id="Logotipo" label="Logotipo"
+                                fgroup-class="mb-2" />
                         </div>
                     </div>
+                    <div style="width: 200px; height:200px;">
 
+                    </div>
                     <div class="d-flex flex-wrap">
                         <div class="d-block col-md-6 col-sm-12">
-                                
-                                    <x-adminlte-input name="nombres" label="*Nombres" placeholder=""
-                                        id="nombres" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
                            
-                                    <x-adminlte-input name="apellidoPaterno" label="*Apellido Paterno" placeholder=""
-                                        id="apellidoPaterno" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                             
-                                    <x-adminlte-input name="apellidoMaterno" label="*Apellido Materno" placeholder=""
-                                        id="apellidoMaterno" type="text" fgroup-class="mb-2" disabled
-                                        disable-feedback />
-                                    
-                                    <x-adminlte-input name="email" label="*E-mail" placeholder=""
+                            <x-adminlte-input name="nombres" label="*Nombres" placeholder=""
+                                id="nombres" type="text" fgroup-class="mb-2" disabled
+                                disable-feedback />
+                                
+                            <x-adminlte-input name="apellidoPaterno" label="*Apellido Paterno" placeholder=""
+                                id="apellidoPaterno" type="text" fgroup-class="mb-2" disabled
+                                disable-feedback />
+                     
+                            <x-adminlte-input name="apellidoMaterno" label="*Apellido Materno" placeholder=""
+                                id="apellidoMaterno" type="text" fgroup-class="mb-2" disabled
+                                disable-feedback />
+                                <x-adminlte-input name="email" label="*E-mail" placeholder=""
                                         id="email" type="text" fgroup-class="mb-2" disabled
                                         disable-feedback />
-                               
                         </div>
-                        <div class="d-block col-md-6 col-sm-12">                           
-                                
-                                    
-                                
+                        <div class="d-block col-md-6 col-sm-12">             
                                     <x-adminlte-input name="telefonoPersonal" label="*Teléfono Personal" placeholder=""
                                         id="telefonoPersonal" type="text" fgroup-class="mb-2" disabled
                                         disable-feedback />

@@ -87,7 +87,7 @@ class VisitasController extends Controller
 
         try {    //Abrimos un catch
             //dd(Auth::user()->Id_Usuario);
-            $query = DB::select('EXEC SP_Visitantes_Seleccionar ?', [Auth::user()->Id_Usuario]);   //Ejecutamos el SP para seleccionar todos los registros
+            $query = DB::select('EXEC SP_Visitas_Seleccionar ?', [Auth::user()->Id_Usuario]);   //Ejecutamos el SP para seleccionar todos los registros
             //dd($query);
             if (empty($query)) {    //Si la variable query esta vacía
                 

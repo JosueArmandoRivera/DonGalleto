@@ -20,7 +20,7 @@ class StoreRequest extends FormRequest
             //El atrubuto responsableUnidadAdministrativa tiene las validaciones que es requerido y tiene que ser un entero el valor que se va a recibir
             //"responsableUnidadAdministrativa" => "required|integer",
             "contenido" => "required|regex:/^[a-zA-Z'.\\s.\\d._.!.¡.?.¿.{.}.$.^.-.'.+.*.&.%.#,°,=.ñáéíóúÁÉÍÓÚÑ]{1,250}$/",
-            "Id_Area" => "required|integer",
+            "idArea" => "required|integer",
             "fechaInicio" => "required|date_format:Y-m-d",
             "fechaFin" => "required|date_format:Y-m-d",   
        ];
@@ -36,8 +36,8 @@ class StoreRequest extends FormRequest
             "contenido.required" => "Se necesita ingresar un contenido",
             //Si el atributo nombreUnidadAdministrativa no cumple con la expresion regular se muestra el siguiente mensaje
             "contenido.regex" => "El contenido introducido contiene carácteres no permitidos. Algunos de los carácteres permitidos son _ ! ¡ ? ¿ { } $ ^ - ' + * & % # °",
-            "Id_Area.required" => "Se necesita ingresar un Área",
-            "Id_Area.integer" => "El ID de proveedor debe ser un número entero",
+            "idArea.required" => "Se necesita ingresar un Área",
+            "idArea.integer" => "El ID de proveedor debe ser un número entero",
             //si el atributo Fecha_Adquisicion no cuenta con el requerido se muestra el siguiente mensaje
             "fechaInicio.required" => "Se necesita ingresar una Fecha de Inicio",
             //Si el atributo Fecha_Adquisicion no cumple con la expresion regular se muestra el siguiente mensaje

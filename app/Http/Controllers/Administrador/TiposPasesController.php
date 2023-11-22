@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Administrador\TiposPases\ShowRequest;
+use App\Http\Requests\Administrador\TiposPases\StoreRequest;
 use App\Http\Requests\Administrador\TiposPases\DestroyRequest;
 
 class TiposPasesController extends Controller
@@ -17,7 +18,7 @@ class TiposPasesController extends Controller
      */
     public function index()
     {
-        $rol = DB::select("SELECT * FROM Roles;");
+        $rol = DB::select("SELECT * FROM Documentos_Visitas;");
         $area = DB::select("SELECT * FROM Areas;");
         return view("Administrador.TiposPases", compact('rol','area'));
     }
@@ -154,9 +155,60 @@ class TiposPasesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+           // dd($request);
+        try{    //Abrimos un try
+            //$objeto = $request->input('Datos');       
+            DB::beginTransaction();
+            $nombre = $request->nombre;
+            $descripcion = $request->descripcion;
+            $usarUnaVez = $request->usarUnaVez;
+            
+
+            $conError=[];
+            $correctos=[];
+//           $idDocumentosArray= $request->idDocumentosArray;
+            //dd($idDocumentosArray);
+            $idUsuario = Auth::user()->Id_Usuario;
+          
+            $submit = DB::SELECT(
+                'EXEC SP_Tipos_Pases_Insertar ?,?,?',
+                [$nombre, $usarUnaVez,$idUsuario] 
+            );
+            //dd($submit);
+            $idTipoPaseInsertado = $submit[0]->idTipoPase;
+            //DD($idDocumentosArray);
+            if(json_decode($request->idDocumentosArray)){
+                $idDocumentosArray= json_decode($request->idDocumentosArray);
+                foreach($idDocumentosArray as $idDoc){
+              
+            
+                    $docIntermedia = DB::SELECT('EXEC SP_Tipos_Pases_Documento_Intermedia_Insertar ?,?,?',[$idTipoPaseInsertado, $idDoc,$idUsuario]);
+                    
+                }
+            }
+        if($submit[0]->respuesta=='Consulta Exitosa'){
+            DB::commit();
+            
+            return response()->json(['status' => 'success', 'titulo' => 'Registro exitoso', 'mensaje' => 'Se registro el tipo de pase exitosamente']);
+
+        }
+        if ($docIntermedia[0]->respuesta == 'Consulta Exitosa' && $submit[0]->respuesta=='Consulta Exitosa') {  //Si el sp se ejecuto de forma correcta retorna una variable llamada respuesta con un valor de Aprobado
+             //Retornamos un json con los datos que podemos mostrar en una alerta status, titulo y mensaje
+             DB::commit();
+             return response()->json(['status' => 'success', 'titulo' => 'Registro exitoso', 'mensaje' => 'Se registro el tipo de pase con la lista de documentos exitosamente']);
+         } else if ($submit[0]->respuesta == 'Error' || $docIntermedia[0]->respuesta == 'Error'){    //Si la consulta no nos regresa elvalor aprobado
+             //Retornamos un json con los datos que podemos mostrar en una alerta status, titulo y mensaje
+             DB::rollback();
+             return response()->json(['status' => 'error', 'titulo' => 'Error al registrar el ejemplo', 'mensaje' =>  "La BD lanzó un error<br><br>Codigo de error: " . $submit[0]->ErrorNumber ."<br><br>Mensaje de la bd: " . $submit[0]->ErrorMessage. "<br><br> Procedimiento: " . $submit[0]->ErrorProcedure . "<br><br> Vuelva a intentarlo, si el problema perciste pongase en contacto con soporte"]);
+           //  return response()->json(['status' => 'error', 'titulo' => 'Error al registrar el ejemplo', "mensaje" => "<br>Código de error: " . $submit[0]->getCode() . "<br><br>El sistema arrojó el mensaje: " .$submit[0]->getMessage()]);        
+         }
+         }catch(Exception $e){   //Si se captura un error durante la ejecución
+            DB::rollback();
+            //Retornamos un json con los datos que podemos mostrar en una alerta status, titulo y mensaje, en el mensaje retornamos cual es el error
+             return response()->json(['status' => 'error', 'titulo' => 'Error al registrar el ejemplo', "mensaje" => "<br>Código de error: " . $e->getCode() . "<br><br>El sistema arrojó el mensaje: " .$e->getMessage()]);
+         }
     }
 
     public function show(ShowRequest $request)  //Recibimos un request de tipo showrequest ya que ahi están las validaciones de los datos
@@ -165,14 +217,18 @@ class TiposPasesController extends Controller
                 $idTipoPase = $request->idTipoPase;  
                 $submit = DB::select(
                     'EXEC SP_Tipos_Pases_Seleccionar_1 ?,?', [$idTipoPase,Auth::user()->Id_Usuario]);
+
+                $docsSolicitados = DB::SELECT('EXEC SP_Tipos_Pases_Documentos_Seleccionar_1 ?,?',[$idTipoPase,Auth::user()->Id_Usuario]);
                 if (!empty($submit)) {  //Validamos si la variable no viene vacía
                     //Retornamos un json con los datos que podemos mostrar en una alerta status, titulo y mensaje, además de los datos obtenidos
-                    return response()->json(['status' => 'success', 'titulo' => 'Consulta exitosa', 'mensaje' => 'Se consultó exitosamente', "datos" => $submit]);
+                    return response()->json(['status' => 'success', 'titulo' => 'Consulta exitosa', 'mensaje' => 'Se consultó exitosamente', "datos" => $submit,"docs"=>$docsSolicitados]);
                 } else {    //Si viene vacía entonces ocurrio un error
                     //Retornamos un json con los datos que podemos mostrar en una alerta status, titulo y mensaje con el error
+                    DB::rollback();
                     return response()->json(['status' => 'error', 'titulo' => 'Error al consultar el ejemplo', 'mensaje' => "La BD lanzó un error<br><br>Codigo de error: " . $submit[0]->ErrorNumber . "<br><br> Procedimiento: " . $submit[0]->ErrorProcedure . "<br><br> Vuelva a intentarlo, si el problema perciste pongase en contacto con soporte"."<br><br>Mensaje de la bd: " . $submit[0]->ErrorMessage]);
                 }
             }catch(Exception $e){       //Si se generá un error en la ejecución
+                DB::rollback();
                 //Retornamos un json con los datos que podemos mostrar en una alerta status, titulo y mensaje con el error
                 return response()->json(['status' => 'error', 'titulo' => 'Error al consultar el ejemplo', "mensaje" => "<br>Código de error: " . $e->getCode() . "<br><br>El sistema arrojó el mensaje: " .$e->getMessage()]);
         }}

@@ -18,13 +18,15 @@ $(document).ready(function () {
         var tipoPase = $("#tipoPase option:selected").text();
         if (tipoPase === "Frecuente") {
             $("#tabla-dias").show();
+            $(".inputHorasInicio").prop('disabled',true);
+            $(".inputHorasFin").prop('disabled',true);
+
             $(".fechas-frecuente").show(); // Mostrar los campos de fechas-frecuente
             $(".fecha-hora").hide(); // Ocultar los campos de fecha-hora
         } else {
             $("#tabla-dias").hide();
             $(".fechas-frecuente").hide(); // Ocultar los campos de fechas-frecuente
             $(".fecha-hora").show(); // Mostrar los campos de fecha-hora
-            
         }
     });
 });
@@ -248,10 +250,59 @@ $(document).on("change", "#chTodosP", function(){
     let dataTable = $('#tablaVisitantes').DataTable();
     if ($('#chTodosP').is(':checked')) {
         console.log("Esta checkeado");
-       // $(".checkEliminarprestamos").prop("checked", true);
         dataTable.$(".eliminarMasivo_checkbox").prop("checked", true);
     }else{
         console.log("no esta checkeado");
         dataTable.$(".eliminarMasivo_checkbox").prop("checked", false);
     }
+});
+$(document).on("change", "#checkTodosDias", function(){
+ //   let dataTable = $('#tabla-dias').DataTable();
+    if ($('#checkTodosDias').is(':checked')) {
+        console.log("Esta checkeado");
+      $(".checkboxDia").prop("checked", true);
+      $(".inputHorasInicio").prop('disabled',false);
+      $(".inputHorasFin").prop('disabled',false);
+    }else{
+        console.log("no esta checkeado");
+       $(".checkboxDia").prop("checked", false);
+       $(".inputHorasInicio").prop('disabled',true);
+       $(".inputHorasFin").prop('disabled',true);
+    }
+});
+$(document).on("change", "#checkTodasHoras", function(){
+   // let dataTable = $('#tabla-dias').DataTable();
+    if ($('#checkTodasHoras').is(':checked')) {
+        console.log("Esta checkeado");
+      $(".checkboxHora").prop("checked", true);
+    }else{
+        console.log("no esta checkeado");
+      $(".checkboxHora").prop("checked", false);
+    }
+});
+
+// Cuando cambia el estado del checkbox de cada fila
+$(".checkboxDia").on("change", function() {
+    // Obtener la fila actual
+    var fila = $(this).closest("tr");
+
+    // Obtener los inputs de la fila actual
+    var inputHorasInicio = fila.find(".inputHorasInicio");
+    var inputHorasFin = fila.find(".inputHorasFin");
+    var checkboxHora = fila.find(".checkboxHora");
+
+    // Habilitar o deshabilitar los inputs según el estado del checkbox
+    if ($(this).is(":checked")) {
+        inputHorasInicio.prop("disabled", false);
+        inputHorasFin.prop("disabled", false);
+        checkboxHora.prop("disabled", false);
+    } else {
+        inputHorasInicio.prop("disabled", true);
+        inputHorasFin.prop("disabled", true);
+        checkboxHora.prop("disabled", true);
+    }
+});
+$("#hora").on("change", function(){
+    let hora = $("#hora").val();
+    alert(hora);
 });
