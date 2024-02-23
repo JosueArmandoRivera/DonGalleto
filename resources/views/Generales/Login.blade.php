@@ -20,10 +20,10 @@
     <div class="login-page">
         <div class="form animate__animated animate__fadeInDown animate__faster">
             <div class="text-center py-2">
-                <img src="{{asset('/img/LogoInndex.png')}}"
+                <img src="{{asset('/img/logo.png')}}"
                   style="width: 250px;" alt="logo">
               </div>
-            <h2 class="mt-1 mb-3 pb-1">Nombre del Proyecto</h2>
+
             <form class="recover-form" id="formularioRecuperarContrasena">
                 @csrf
                 <div class="form-group d-block text-left">
@@ -49,7 +49,7 @@
                 <p class="message">¿Olvidaste tu contraseña? <a href="javascript:void(0)">Recuperar</a></p>
             </form>
 
-            <p class="pt-4 version">Grupo Inndex<br>Versión 1.0.0</p>
+            <p class="pt-4 version">Universidad Tecnológica de León<br>Versión 1.0.0</p>
         </div>
     </div>
 

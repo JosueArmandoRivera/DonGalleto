@@ -1,7 +1,7 @@
 /* Creado por: Armando Rivera
    Fecha de creación: 20/10/2023*/
 
-   let btnModal = {
+let btnModal = {
     "btnAgregar": document.getElementById("btnAgregar"),    //Agregamos el boton de agregar
     "btnEditar": document.getElementById("btnEditarModal"),      //Agregamos el boton de editar
 };

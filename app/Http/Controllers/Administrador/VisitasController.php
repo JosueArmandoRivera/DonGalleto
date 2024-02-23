@@ -19,7 +19,7 @@ class VisitasController extends Controller
       
     public function index()
     {
-        $idUsuario = Auth::user()->id;
+        $idUsuario = Auth::user()->Id_Usuario;
         $usuarios = DB::select("SELECT Id_Usuario, Email FROM Usuarios where Estatus = 1;");
         $visitantes = DB::select("SELECT Id_Persona, Nombres FROM Personas where Estatus = 1;");
         $area = DB::select("SELECT * FROM Areas;");
@@ -193,7 +193,7 @@ class VisitasController extends Controller
                     $Usuarios->Extension_Telefono,
                     $Usuarios->WhatsApp,
                     $Usuarios->Email,
-                    Auth::user()->Id_Usuario
+                    Auth::user()->Id
                 ]
             );
            // dd($submit);

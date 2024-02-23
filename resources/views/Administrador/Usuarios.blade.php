@@ -29,7 +29,7 @@
         $permisoPagina = false; // Valor predeterminado en caso de que no se cumpla ninguna condición
     @endphp
     @foreach (session('permisos') as $moduloID => $permisos)
-        @if ($moduloID == 3)
+        @if ($moduloID == 1)
             {{-- Debes colocar el id del modulo --}}
             @php
                 $permisoPagina = true; //Variable para saber si tiene permiso al modulo

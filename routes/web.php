@@ -8,9 +8,14 @@ use App\Http\Controllers\Administrador\RolesController;
 use App\Http\Controllers\Generales\DashboardController;
 use App\Http\Controllers\Generales\PageErrorController;
 use App\Http\Controllers\Administrador\AvisosController;
+use App\Http\Controllers\Administrador\VentasController;
+use App\Http\Controllers\Administrador\InsumosController;
 use App\Http\Controllers\Administrador\VisitasController;
+use App\Http\Controllers\Administrador\ReportesController;
 use App\Http\Controllers\Administrador\UsuariosController;
+use App\Http\Controllers\Administrador\GananciasController;
 use App\Http\Controllers\Administrador\RegistrosController;
+use App\Http\Controllers\Administrador\InventarioController;
 use App\Http\Controllers\Administrador\TiposPasesController;
 use App\Http\Controllers\Administrador\VisitantesController;
 use App\Http\Controllers\Generales\NotificacionesController;
@@ -102,7 +107,7 @@ Route::GET('/500ErrorServidor', [PageErrorController::class, 'error500'])->name(
     });            
   }); */
   Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
-    Route::GET('/usuarios', [UsuariosController::class, 'index'])->name('rol.index');                             //Ruta para retornar la pantalla principal
+    Route::GET('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');                             //Ruta para retornar la pantalla principal
     Route::GET('/usuarios/armarTabla', [UsuariosController::class, 'armarTabla'])->name('usuarios.armarTabla');        //Ruta para consultar y contruir la tabla
     Route::POST('/usuarios/store', [UsuariosController::class, 'store'])->name('usuarios.store');                      //Ruta para realizar un registro
     Route::GET('/usuarios/consultar', [UsuariosController::class, 'show'])->name('usuarios.show');                     //Ruta para consultar un registro
@@ -201,4 +206,22 @@ Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
   Route::GET('/comentariosyvaloraciones/consultar', [ComentariosController::class, 'show'])->name('registros.show');                     //Ruta para consultar un registro
   Route::POST('/comentariosyvaloraciones/modificar', [ComentariosController::class, 'update'])->name('registros.update');                //Ruta para actualizar un registro
   Route::POST('/comentariosyvaloraciones/eliminar', [ComentariosController::class, 'destroy'])->name('registros.destroy');               //Ruta para eliminar un registro 
+});
+
+Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
+  Route::GET('/ventas', [VentasController::class, 'index'])->name('ventas.index');     
+  Route::POST('/ventas/store', [VentasController::class, 'store'])->name('ventas.store');                             //Ruta para retornar la pantalla principal
+});
+Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
+  Route::GET('/ganancias', [GananciasController::class, 'index'])->name('ganancias.index');  
+  Route::GET('/ganancias/armarTabla', [GananciasController::class, 'armarTabla'])->name('ganancias.armarTabla');        //Ruta para consultar y contruir la tabla
+  });
+Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
+  Route::GET('/insumos', [InsumosController::class, 'index'])->name('insumos.index');                             //Ruta para retornar la pantalla principal
+});
+Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
+  Route::GET('/reportes', [ReportesController::class, 'index'])->name('reportes.index');                             //Ruta para retornar la pantalla principal
+});
+Route::middleware(['auth', 'prohibirRetroceso'])->group(function () {
+  Route::GET('/inventario', [InventarioController::class, 'index'])->name('inventario.index');                             //Ruta para retornar la pantalla principal
 });

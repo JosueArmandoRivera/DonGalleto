@@ -1,0 +1,130 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Set minimum height to 100% of the viewport height */
+}
+
+/* Navbar Styles */
+.navbar {
+    background: #e6b31b;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+}
+
+.navbar-nav .nav-item {
+    margin-right: 15px;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff;
+    transition: color 0.3s ease; /* Smooth transition effect */
+    position: relative;
+}
+
+.navbar-nav .nav-link::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffffff;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f0f0f0; /* Navbar link text color on hover */
+}
+
+.navbar-nav .nav-link:hover::before {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Container Styles */
+.container {
+    flex: 1; /* Allow the container to grow and fill available space */
+    background: #f7ee92;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+}
+
+/* First Div with Buttons Styles */
+.container .row:first-child {
+    margin-bottom: 20px;
+}
+
+.container .btn {
+    margin-right: 10px;
+    color: #ffffff; /* Button text color */
+    background-color: #ff5830; /* Updated color */
+    border: none;
+    width: 120px; /* Set a fixed width for the buttons */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition effect */
+}
+
+.container .btn:hover {
+    background-color: #e6461d;
+}
+
+/* Second Div with Table Styles */
+.container .row:nth-child(2) {
+    margin-bottom: 20px;
+}
+
+/* Third Div with Space for Graph Styles */
+.container .row:last-child {
+    margin-bottom: 20px;
+}
+
+/* Carousel Styles */
+#ingredientCarousel {
+    max-width: 75px; /* Set maximum width for the carousel */
+    margin: 0 auto; /* Center the carousel */
+    overflow: hidden; /* Hide overflowing content */
+    margin-bottom: 10px; /* Add space between the carousel and buttons */
+}
+
+#ingredientCarousel .carousel-inner {
+    width: 100%;
+    display: flex;
+    transition: transform 0.5s ease; /* Smooth transition effect */
+}
+
+#ingredientCarousel .carousel-item {
+    width: 80px; /* Set fixed width for each carousel item */
+    flex: 0 0 auto; /* Prevent items from growing or shrinking */
+}
+
+#ingredientCarousel {
+    pointer-events: none;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    border: 1px solid #ffddb3; /* Lighter orange border color */
+    padding: 10px;
+    text-align: left;
+}
+
+.table th {
+    background: linear-gradient(to right, #ff8c69, #ff6b43); /* Gradient background */
+    color: #ffffff; /* Text color in the table header */
+}
+
+/* Footer Styles */
+.footer {
+    background: #e6b31b; /* Updated color */
+    color: #ffffff; /* Footer text color */
+    padding: 10px 0;
+    margin-top: auto; /* Push the footer to the bottom */
+}

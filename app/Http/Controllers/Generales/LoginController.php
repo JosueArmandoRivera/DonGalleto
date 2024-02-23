@@ -52,7 +52,7 @@ class LoginController extends Controller
                 'EXEC SP_Login ?, ?',
                 [$email, $password] //Le enviamos el email y la constraseña
             );
-
+            //dd($user);
             if(empty($user)){   //Si el usuario no se encontró
                 //Retornamos un mensaje diciendo que no existe el usuario
                 return response()->json(['status' => 'error', 'titulo' => 'No se pudo iniciar sesión', 'mensaje' => "El email o la contraseña introducidos son incorrectos"]);
@@ -68,7 +68,7 @@ class LoginController extends Controller
                     // Autenticación exitosa
                     Auth::loginUsingId($user[0]->Id_Usuario);
                     //En la sesion metemos el id de la unidad a la que pertenece el usuario
-                    Session::put('Id_Area', $user[0]->Id_Area);
+                    //Session::put('Id_Area', $user[0]->Id_Area);
                     Session::put('Nombres', $user[0]->Nombres);
                     //Retornamos la direccion a la ruta princiapl
                     return response()->json(['status' => "success", 'redirect' => route('index')]);
